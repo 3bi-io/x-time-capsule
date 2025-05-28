@@ -1,6 +1,6 @@
 
-import { Shield, Heart } from "lucide-react";
-import { Button } from "@/components/ui/button";
+import { Shield } from "lucide-react";
+import Navigation from "@/components/ui/navigation";
 
 const Header = () => {
   return (
@@ -12,20 +12,7 @@ const Header = () => {
           </div>
           <h1 className="text-2xl font-bold">Time Capsule</h1>
         </div>
-        <nav className="flex items-center space-x-6">
-          <a href="#how-it-works" className="hover:text-blue-300 transition-colors">
-            How It Works
-          </a>
-          <a href="#security" className="hover:text-blue-300 transition-colors">
-            Security
-          </a>
-          <Button variant="outline" className="border-blue-400 text-blue-400 hover:bg-blue-400 hover:text-white">
-            Sign In
-          </Button>
-          <Button className="bg-blue-600 hover:bg-blue-700">
-            Get Started
-          </Button>
-        </nav>
+        <Navigation variant="header" />
       </div>
     </header>
   );

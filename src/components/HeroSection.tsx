@@ -1,6 +1,8 @@
 
-import { Heart, Shield, Clock } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { Heart } from "lucide-react";
+import FeatureCard from "@/components/features/FeatureCard";
+import { HERO_FEATURES } from "@/data/constants";
 
 const HeroSection = () => {
   return (
@@ -32,29 +34,15 @@ const HeroSection = () => {
         </div>
         
         <div className="grid md:grid-cols-3 gap-8 max-w-3xl mx-auto">
-          <div className="text-center">
-            <div className="bg-emerald-100 p-3 rounded-full w-16 h-16 flex items-center justify-center mx-auto mb-4">
-              <Shield className="h-8 w-8 text-emerald-600" />
-            </div>
-            <h3 className="font-semibold text-slate-900 mb-2">Bank-Level Security</h3>
-            <p className="text-slate-600">256-bit encryption and multi-factor authentication</p>
-          </div>
-          
-          <div className="text-center">
-            <div className="bg-purple-100 p-3 rounded-full w-16 h-16 flex items-center justify-center mx-auto mb-4">
-              <Clock className="h-8 w-8 text-purple-600" />
-            </div>
-            <h3 className="font-semibold text-slate-900 mb-2">Verified Access</h3>
-            <p className="text-slate-600">Death certificate verification required for access</p>
-          </div>
-          
-          <div className="text-center">
-            <div className="bg-amber-100 p-3 rounded-full w-16 h-16 flex items-center justify-center mx-auto mb-4">
-              <Heart className="h-8 w-8 text-amber-600" />
-            </div>
-            <h3 className="font-semibold text-slate-900 mb-2">Family Focused</h3>
-            <p className="text-slate-600">Designed with your loved ones' needs in mind</p>
-          </div>
+          {HERO_FEATURES.map((feature, index) => (
+            <FeatureCard
+              key={index}
+              icon={feature.icon}
+              title={feature.title}
+              description={feature.description}
+              iconColor={feature.color}
+            />
+          ))}
         </div>
       </div>
     </section>

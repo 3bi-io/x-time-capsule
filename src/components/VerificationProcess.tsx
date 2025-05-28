@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -6,18 +5,12 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Badge } from "@/components/ui/badge";
 import { Upload, CheckCircle, AlertCircle, FileText } from "lucide-react";
+import VerificationStep from "@/components/verification/VerificationStep";
+import { useVerificationProcess } from "@/hooks/useVerificationProcess";
+import { VERIFICATION_STEPS } from "@/data/constants";
 
 const VerificationProcess = () => {
-  const [step, setStep] = useState(1);
-  const [uploadStatus, setUploadStatus] = useState("pending");
-
-  const handleFileUpload = () => {
-    setUploadStatus("uploading");
-    setTimeout(() => {
-      setUploadStatus("uploaded");
-      setStep(2);
-    }, 2000);
-  };
+  const { step, uploadStatus, handleFileUpload, nextStep } = useVerificationProcess();
 
   return (
     <section className="py-16 px-6 bg-slate-50">
@@ -40,37 +33,16 @@ const VerificationProcess = () => {
               </CardTitle>
             </CardHeader>
             <CardContent className="space-y-4">
-              <div className={`p-4 rounded-lg border-l-4 ${step >= 1 ? 'border-blue-500 bg-blue-50' : 'border-slate-200 bg-slate-50'}`}>
-                <div className="flex items-center justify-between mb-2">
-                  <h4 className="font-medium">1. Identity Verification</h4>
-                  {step > 1 && <CheckCircle className="h-5 w-5 text-emerald-600" />}
-                </div>
-                <p className="text-sm text-slate-600">Provide your relationship to the deceased and contact information</p>
-              </div>
-
-              <div className={`p-4 rounded-lg border-l-4 ${step >= 2 ? 'border-blue-500 bg-blue-50' : 'border-slate-200 bg-slate-50'}`}>
-                <div className="flex items-center justify-between mb-2">
-                  <h4 className="font-medium">2. Death Certificate Upload</h4>
-                  {step > 2 && <CheckCircle className="h-5 w-5 text-emerald-600" />}
-                </div>
-                <p className="text-sm text-slate-600">Upload a certified copy of the death certificate</p>
-              </div>
-
-              <div className={`p-4 rounded-lg border-l-4 ${step >= 3 ? 'border-blue-500 bg-blue-50' : 'border-slate-200 bg-slate-50'}`}>
-                <div className="flex items-center justify-between mb-2">
-                  <h4 className="font-medium">3. Review & Approval</h4>
-                  {step > 3 && <CheckCircle className="h-5 w-5 text-emerald-600" />}
-                </div>
-                <p className="text-sm text-slate-600">Our team reviews your request (typically 24-48 hours)</p>
-              </div>
-
-              <div className={`p-4 rounded-lg border-l-4 ${step >= 4 ? 'border-blue-500 bg-blue-50' : 'border-slate-200 bg-slate-50'}`}>
-                <div className="flex items-center justify-between mb-2">
-                  <h4 className="font-medium">4. Access Granted</h4>
-                  {step > 4 && <CheckCircle className="h-5 w-5 text-emerald-600" />}
-                </div>
-                <p className="text-sm text-slate-600">Secure access to the Time Capsule contents</p>
-              </div>
+              {VERIFICATION_STEPS.map((verificationStep) => (
+                <VerificationStep
+                  key={verificationStep.stepNumber}
+                  stepNumber={verificationStep.stepNumber}
+                  title={verificationStep.title}
+                  description={verificationStep.description}
+                  currentStep={step}
+                  isCompleted={step > verificationStep.stepNumber}
+                />
+              ))}
             </CardContent>
           </Card>
 
@@ -103,7 +75,7 @@ const VerificationProcess = () => {
                   </div>
                   
                   <Button 
-                    onClick={() => setStep(2)} 
+                    onClick={nextStep} 
                     className="w-full bg-blue-600 hover:bg-blue-700"
                   >
                     Continue to Document Upload
@@ -150,7 +122,7 @@ const VerificationProcess = () => {
                   
                   {uploadStatus === "uploaded" && (
                     <Button 
-                      onClick={() => setStep(3)} 
+                      onClick={nextStep} 
                       className="w-full bg-blue-600 hover:bg-blue-700"
                     >
                       Submit for Review
