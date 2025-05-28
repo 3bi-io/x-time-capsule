@@ -3,6 +3,7 @@ import { Button } from "@/components/ui/button";
 import { Heart } from "lucide-react";
 import FeatureCard from "@/components/features/FeatureCard";
 import { HERO_FEATURES } from "@/data/constants";
+import { Link } from "react-router-dom";
 
 const HeroSection = () => {
   return (
@@ -25,12 +26,16 @@ const HeroSection = () => {
         </p>
         
         <div className="flex justify-center space-x-4 mb-12">
-          <Button size="lg" className="bg-blue-600 hover:bg-blue-700 px-8 py-4 text-lg">
-            Create Your Time Capsule
-          </Button>
-          <Button size="lg" variant="outline" className="px-8 py-4 text-lg border-slate-300">
-            Request Access
-          </Button>
+          <Link to="/auth">
+            <Button size="lg" className="bg-blue-600 hover:bg-blue-700 px-8 py-4 text-lg">
+              Create Your Time Capsule
+            </Button>
+          </Link>
+          <Link to="/emergency-access">
+            <Button size="lg" variant="outline" className="px-8 py-4 text-lg border-slate-300">
+              Request Access
+            </Button>
+          </Link>
         </div>
         
         <div className="grid md:grid-cols-3 gap-8 max-w-3xl mx-auto">
