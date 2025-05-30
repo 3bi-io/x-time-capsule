@@ -41,15 +41,15 @@ const Security = () => {
     <div className="min-h-screen">
       <Header />
       
-      <section className="bg-gradient-to-br from-slate-50 to-blue-50 py-20 px-6">
+      <section className="bg-gradient-to-br from-slate-50 to-blue-50 py-12 sm:py-16 lg:py-20 px-4 sm:px-6">
         <div className="max-w-4xl mx-auto text-center">
-          <div className="flex justify-center mb-6">
-            <div className="bg-blue-100 p-4 rounded-full">
-              <Shield className="h-12 w-12 text-blue-600" />
+          <div className="flex justify-center mb-4 sm:mb-6">
+            <div className="bg-blue-100 p-3 sm:p-4 rounded-full">
+              <Shield className="h-8 w-8 sm:h-10 lg:h-12 sm:w-10 lg:w-12 text-blue-600" />
             </div>
           </div>
-          <h1 className="text-4xl font-bold text-slate-900 mb-6">Bank-Level Security</h1>
-          <p className="text-xl text-slate-600 mb-8 max-w-2xl mx-auto">
+          <h1 className="text-3xl sm:text-4xl font-bold text-slate-900 mb-4 sm:mb-6">Bank-Level Security</h1>
+          <p className="text-lg sm:text-xl text-slate-600 mb-6 sm:mb-8 max-w-2xl mx-auto">
             Your family's most sensitive information deserves the highest level of protection. 
             Our security measures exceed industry standards.
           </p>
@@ -58,28 +58,28 @@ const Security = () => {
 
       <SecurityFeatures />
 
-      <section className="py-16 px-6 bg-slate-50">
+      <section className="py-12 sm:py-16 px-4 sm:px-6 bg-slate-50">
         <div className="max-w-6xl mx-auto">
-          <div className="text-center mb-12">
-            <h2 className="text-3xl font-bold text-slate-900 mb-4">Our Security Principles</h2>
-            <p className="text-slate-600 max-w-2xl mx-auto">
+          <div className="text-center mb-8 sm:mb-12">
+            <h2 className="text-2xl sm:text-3xl font-bold text-slate-900 mb-3 sm:mb-4">Our Security Principles</h2>
+            <p className="text-slate-600 max-w-2xl mx-auto text-sm sm:text-base">
               Every decision we make prioritizes the security and privacy of your family's information.
             </p>
           </div>
 
-          <div className="grid md:grid-cols-2 gap-8">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 sm:gap-8">
             {securityPrinciples.map((principle, index) => (
-              <Card key={index} className="p-6">
-                <CardHeader>
-                  <div className="flex items-center space-x-4 mb-4">
-                    <div className="bg-blue-100 p-3 rounded-full">
-                      <principle.icon className="h-6 w-6 text-blue-600" />
+              <Card key={index} className="p-4 sm:p-6">
+                <CardHeader className="pb-3 sm:pb-4">
+                  <div className="flex items-center space-x-4 mb-3 sm:mb-4">
+                    <div className="bg-blue-100 p-2 sm:p-3 rounded-full">
+                      <principle.icon className="h-5 w-5 sm:h-6 sm:w-6 text-blue-600" />
                     </div>
-                    <CardTitle className="text-xl">{principle.title}</CardTitle>
+                    <CardTitle className="text-lg sm:text-xl">{principle.title}</CardTitle>
                   </div>
                 </CardHeader>
-                <CardContent>
-                  <p className="text-slate-600">{principle.description}</p>
+                <CardContent className="pt-0">
+                  <p className="text-slate-600 text-sm sm:text-base">{principle.description}</p>
                 </CardContent>
               </Card>
             ))}
@@ -87,23 +87,23 @@ const Security = () => {
         </div>
       </section>
 
-      <section className="py-16 px-6">
+      <section className="py-12 sm:py-16 px-4 sm:px-6">
         <div className="max-w-4xl mx-auto">
-          <div className="text-center mb-12">
-            <h2 className="text-3xl font-bold text-slate-900 mb-4">Certifications & Compliance</h2>
-            <p className="text-slate-600 max-w-2xl mx-auto">
+          <div className="text-center mb-8 sm:mb-12">
+            <h2 className="text-2xl sm:text-3xl font-bold text-slate-900 mb-3 sm:mb-4">Certifications & Compliance</h2>
+            <p className="text-slate-600 max-w-2xl mx-auto text-sm sm:text-base">
               We maintain the highest industry standards and certifications to ensure your data is protected.
             </p>
           </div>
 
-          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+          <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
             {certifications.map((cert, index) => (
-              <Card key={index} className="text-center p-6">
-                <div className="flex justify-center mb-4">
-                  <Award className="h-12 w-12 text-blue-600" />
+              <Card key={index} className="text-center p-4 sm:p-6">
+                <div className="flex justify-center mb-3 sm:mb-4">
+                  <Award className="h-8 w-8 sm:h-10 lg:h-12 sm:w-10 lg:w-12 text-blue-600" />
                 </div>
-                <h3 className="font-semibold mb-2">{cert.name}</h3>
-                <Badge variant="outline" className="text-green-700 border-green-200 bg-green-50">
+                <h3 className="font-semibold mb-2 text-sm sm:text-base">{cert.name}</h3>
+                <Badge variant="outline" className="text-green-700 border-green-200 bg-green-50 text-xs sm:text-sm">
                   {cert.status}
                 </Badge>
               </Card>

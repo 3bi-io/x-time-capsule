@@ -21,40 +21,55 @@ const Auth = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 to-blue-50 flex items-center justify-center p-6">
+    <div className="min-h-screen bg-gradient-to-br from-slate-50 to-blue-50 flex items-center justify-center p-4 sm:p-6">
       <div className="w-full max-w-md">
-        <div className="text-center mb-8">
-          <Link to="/" className="inline-flex items-center space-x-3 mb-6">
+        <div className="text-center mb-6 sm:mb-8">
+          <Link to="/" className="inline-flex items-center space-x-3 mb-4 sm:mb-6">
             <div className="bg-blue-600 p-2 rounded-lg">
-              <Shield className="h-6 w-6 text-white" />
+              <Shield className="h-5 w-5 sm:h-6 sm:w-6 text-white" />
             </div>
-            <h1 className="text-2xl font-bold text-slate-900">Time Capsule</h1>
+            <h1 className="text-xl sm:text-2xl font-bold text-slate-900">Time Capsule</h1>
           </Link>
-          <p className="text-slate-600">Secure access to your digital legacy</p>
+          <p className="text-slate-600 text-sm sm:text-base">Secure access to your digital legacy</p>
         </div>
 
-        <Card>
-          <CardHeader>
-            <CardTitle className="text-center">Welcome</CardTitle>
+        <Card className="shadow-lg">
+          <CardHeader className="pb-4">
+            <CardTitle className="text-center text-lg sm:text-xl">Welcome</CardTitle>
           </CardHeader>
-          <CardContent>
+          <CardContent className="px-4 sm:px-6">
             <Tabs defaultValue="signin" className="w-full">
-              <TabsList className="grid w-full grid-cols-2">
-                <TabsTrigger value="signin">Sign In</TabsTrigger>
-                <TabsTrigger value="signup">Sign Up</TabsTrigger>
+              <TabsList className="grid w-full grid-cols-2 mb-6">
+                <TabsTrigger value="signin" className="text-sm">Sign In</TabsTrigger>
+                <TabsTrigger value="signup" className="text-sm">Sign Up</TabsTrigger>
               </TabsList>
               
               <TabsContent value="signin">
                 <form onSubmit={handleSubmit} className="space-y-4">
                   <div>
-                    <Label htmlFor="email">Email</Label>
-                    <Input id="email" type="email" placeholder="your@email.com" required />
+                    <Label htmlFor="email" className="text-sm">Email</Label>
+                    <Input 
+                      id="email" 
+                      type="email" 
+                      placeholder="your@email.com" 
+                      required 
+                      className="mt-1"
+                    />
                   </div>
                   <div>
-                    <Label htmlFor="password">Password</Label>
-                    <Input id="password" type="password" required />
+                    <Label htmlFor="password" className="text-sm">Password</Label>
+                    <Input 
+                      id="password" 
+                      type="password" 
+                      required 
+                      className="mt-1"
+                    />
                   </div>
-                  <Button type="submit" className="w-full bg-blue-600 hover:bg-blue-700" disabled={isLoading}>
+                  <Button 
+                    type="submit" 
+                    className="w-full bg-blue-600 hover:bg-blue-700 mt-6" 
+                    disabled={isLoading}
+                  >
                     {isLoading ? "Signing in..." : "Sign In"}
                   </Button>
                 </form>
@@ -63,22 +78,47 @@ const Auth = () => {
               <TabsContent value="signup">
                 <form onSubmit={handleSubmit} className="space-y-4">
                   <div>
-                    <Label htmlFor="fullName">Full Name</Label>
-                    <Input id="fullName" placeholder="Your full name" required />
+                    <Label htmlFor="fullName" className="text-sm">Full Name</Label>
+                    <Input 
+                      id="fullName" 
+                      placeholder="Your full name" 
+                      required 
+                      className="mt-1"
+                    />
                   </div>
                   <div>
-                    <Label htmlFor="signupEmail">Email</Label>
-                    <Input id="signupEmail" type="email" placeholder="your@email.com" required />
+                    <Label htmlFor="signupEmail" className="text-sm">Email</Label>
+                    <Input 
+                      id="signupEmail" 
+                      type="email" 
+                      placeholder="your@email.com" 
+                      required 
+                      className="mt-1"
+                    />
                   </div>
                   <div>
-                    <Label htmlFor="signupPassword">Password</Label>
-                    <Input id="signupPassword" type="password" required />
+                    <Label htmlFor="signupPassword" className="text-sm">Password</Label>
+                    <Input 
+                      id="signupPassword" 
+                      type="password" 
+                      required 
+                      className="mt-1"
+                    />
                   </div>
                   <div>
-                    <Label htmlFor="confirmPassword">Confirm Password</Label>
-                    <Input id="confirmPassword" type="password" required />
+                    <Label htmlFor="confirmPassword" className="text-sm">Confirm Password</Label>
+                    <Input 
+                      id="confirmPassword" 
+                      type="password" 
+                      required 
+                      className="mt-1"
+                    />
                   </div>
-                  <Button type="submit" className="w-full bg-blue-600 hover:bg-blue-700" disabled={isLoading}>
+                  <Button 
+                    type="submit" 
+                    className="w-full bg-blue-600 hover:bg-blue-700 mt-6" 
+                    disabled={isLoading}
+                  >
                     {isLoading ? "Creating account..." : "Create Account"}
                   </Button>
                 </form>
@@ -87,8 +127,8 @@ const Auth = () => {
           </CardContent>
         </Card>
 
-        <div className="text-center mt-6">
-          <p className="text-sm text-slate-600">
+        <div className="text-center mt-4 sm:mt-6">
+          <p className="text-xs sm:text-sm text-slate-600">
             Need emergency access? <Link to="/emergency-access" className="text-blue-600 hover:underline">Click here</Link>
           </p>
         </div>

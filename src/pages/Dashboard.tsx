@@ -25,30 +25,30 @@ const Dashboard = () => {
     <div className="min-h-screen bg-slate-50">
       <Header />
       
-      <section className="py-8 px-6">
+      <section className="py-6 sm:py-8 px-4 sm:px-6">
         <div className="max-w-6xl mx-auto">
-          <div className="flex justify-between items-center mb-8">
+          <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-6 sm:mb-8">
             <div>
-              <h1 className="text-3xl font-bold text-slate-900">Dashboard</h1>
-              <p className="text-slate-600">Manage your digital legacy and family access</p>
+              <h1 className="text-2xl sm:text-3xl font-bold text-slate-900">Dashboard</h1>
+              <p className="text-slate-600 text-sm sm:text-base">Manage your digital legacy and family access</p>
             </div>
-            <Button className="bg-blue-600 hover:bg-blue-700">
+            <Button className="w-full sm:w-auto bg-blue-600 hover:bg-blue-700">
               <Plus className="h-4 w-4 mr-2" />
               Add New Item
             </Button>
           </div>
 
           {/* Stats Cards */}
-          <div className="grid md:grid-cols-3 gap-6 mb-8">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 mb-6 sm:mb-8">
             {stats.map((stat, index) => (
               <Card key={index}>
-                <CardContent className="p-6">
+                <CardContent className="p-4 sm:p-6">
                   <div className="flex items-center justify-between">
                     <div>
-                      <p className="text-sm text-slate-600">{stat.label}</p>
-                      <p className="text-2xl font-bold text-slate-900">{stat.value}</p>
+                      <p className="text-xs sm:text-sm text-slate-600">{stat.label}</p>
+                      <p className="text-xl sm:text-2xl font-bold text-slate-900">{stat.value}</p>
                     </div>
-                    <stat.icon className={`h-8 w-8 ${stat.color}`} />
+                    <stat.icon className={`h-6 w-6 sm:h-8 sm:w-8 ${stat.color}`} />
                   </div>
                 </CardContent>
               </Card>
@@ -56,19 +56,19 @@ const Dashboard = () => {
           </div>
 
           {/* Recent Activity */}
-          <div className="grid lg:grid-cols-3 gap-8 mb-8">
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 sm:gap-8 mb-6 sm:mb-8">
             <Card className="lg:col-span-1">
-              <CardHeader>
-                <CardTitle className="flex items-center space-x-2">
-                  <Bell className="h-5 w-5" />
+              <CardHeader className="pb-3">
+                <CardTitle className="flex items-center space-x-2 text-base sm:text-lg">
+                  <Bell className="h-4 w-4 sm:h-5 sm:w-5" />
                   <span>Recent Activity</span>
                 </CardTitle>
               </CardHeader>
-              <CardContent>
-                <div className="space-y-4">
+              <CardContent className="px-4 sm:px-6">
+                <div className="space-y-3 sm:space-y-4">
                   {notifications.map((notification) => (
                     <div key={notification.id} className="p-3 bg-slate-50 rounded-lg">
-                      <p className="text-sm text-slate-800 mb-1">{notification.message}</p>
+                      <p className="text-xs sm:text-sm text-slate-800 mb-1 leading-relaxed">{notification.message}</p>
                       <p className="text-xs text-slate-500">{notification.time}</p>
                     </div>
                   ))}
@@ -77,26 +77,26 @@ const Dashboard = () => {
             </Card>
 
             <Card className="lg:col-span-2">
-              <CardHeader>
-                <CardTitle>Quick Actions</CardTitle>
+              <CardHeader className="pb-3">
+                <CardTitle className="text-base sm:text-lg">Quick Actions</CardTitle>
               </CardHeader>
-              <CardContent>
-                <div className="grid md:grid-cols-2 gap-4">
-                  <Button variant="outline" className="h-20 flex flex-col space-y-2">
-                    <Users className="h-6 w-6" />
-                    <span>Manage Family Access</span>
+              <CardContent className="px-4 sm:px-6">
+                <div className="grid grid-cols-2 gap-3 sm:gap-4">
+                  <Button variant="outline" className="h-16 sm:h-20 flex flex-col space-y-1 sm:space-y-2 text-xs sm:text-sm">
+                    <Users className="h-4 w-4 sm:h-6 sm:w-6" />
+                    <span className="text-center">Manage Family Access</span>
                   </Button>
-                  <Button variant="outline" className="h-20 flex flex-col space-y-2">
-                    <Shield className="h-6 w-6" />
-                    <span>Security Settings</span>
+                  <Button variant="outline" className="h-16 sm:h-20 flex flex-col space-y-1 sm:space-y-2 text-xs sm:text-sm">
+                    <Shield className="h-4 w-4 sm:h-6 sm:w-6" />
+                    <span className="text-center">Security Settings</span>
                   </Button>
-                  <Button variant="outline" className="h-20 flex flex-col space-y-2">
-                    <Plus className="h-6 w-6" />
-                    <span>Add Documents</span>
+                  <Button variant="outline" className="h-16 sm:h-20 flex flex-col space-y-1 sm:space-y-2 text-xs sm:text-sm">
+                    <Plus className="h-4 w-4 sm:h-6 sm:w-6" />
+                    <span className="text-center">Add Documents</span>
                   </Button>
-                  <Button variant="outline" className="h-20 flex flex-col space-y-2">
-                    <Bell className="h-6 w-6" />
-                    <span>Notification Settings</span>
+                  <Button variant="outline" className="h-16 sm:h-20 flex flex-col space-y-1 sm:space-y-2 text-xs sm:text-sm">
+                    <Bell className="h-4 w-4 sm:h-6 sm:w-6" />
+                    <span className="text-center">Notification Settings</span>
                   </Button>
                 </div>
               </CardContent>
