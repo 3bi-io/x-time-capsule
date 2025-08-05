@@ -7,8 +7,12 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Plus, Users, Shield, Clock, Bell } from "lucide-react";
+import { useAuth } from "@/contexts/AuthContext";
+import { useVaultData } from "@/hooks/useVaultData";
 
 const Dashboard = () => {
+  const { user } = useAuth();
+  const { timeCapsules, loading } = useVaultData();
   const [notifications] = useState([
     { id: 1, message: "New family member request from john@example.com", time: "2 hours ago", type: "request" },
     { id: 2, message: "Password vault updated successfully", time: "1 day ago", type: "update" },
@@ -16,9 +20,19 @@ const Dashboard = () => {
   ]);
 
   const stats = [
-    { label: "Total Items", value: "24", icon: Shield, color: "text-blue-600" },
-    { label: "Family Members", value: "3", icon: Users, color: "text-green-600" },
-    { label: "Last Updated", value: "2 days ago", icon: Clock, color: "text-orange-600" }
+    { 
+      label: "Total Items", 
+      value: loading ? "..." : timeCapsules.length.toString(), 
+      icon: Shield, 
+      color: "text-blue-600" 
+    },
+    { label: "Family Members", value: "0", icon: Users, color: "text-green-600" },
+    { 
+      label: "Account Created", 
+      value: user?.created_at ? new Date(user.created_at).toLocaleDateString() : "Today", 
+      icon: Clock, 
+      color: "text-orange-600" 
+    }
   ];
 
   return (
@@ -29,7 +43,9 @@ const Dashboard = () => {
         <div className="max-w-6xl mx-auto">
           <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-6 sm:mb-8">
             <div>
-              <h1 className="text-2xl sm:text-3xl font-bold text-slate-900">Dashboard</h1>
+              <h1 className="text-2xl sm:text-3xl font-bold text-slate-900">
+                Welcome back, {user?.user_metadata?.full_name || 'User'}
+              </h1>
               <p className="text-slate-600 text-sm sm:text-base">Manage your digital legacy and family access</p>
             </div>
             <Button className="w-full sm:w-auto bg-blue-600 hover:bg-blue-700">
