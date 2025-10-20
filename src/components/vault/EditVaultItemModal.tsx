@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -7,6 +7,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { VAULT_CATEGORIES } from "@/data/constants";
 import { TimeCapsule } from "@/hooks/useVaultData";
+import UnlockDatePicker from "./UnlockDatePicker";
 
 interface EditVaultItemModalProps {
   isOpen: boolean;
@@ -20,16 +21,9 @@ const EditVaultItemModal = ({ isOpen, onClose, onSave, item }: EditVaultItemModa
     title: item.title,
     description: item.description || "",
     category: item.category,
+    unlock_date: item.unlock_date || null,
   });
   const [loading, setLoading] = useState(false);
-
-  useEffect(() => {
-    setFormData({
-      title: item.title,
-      description: item.description || "",
-      category: item.category,
-    });
-  }, [item]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -73,7 +67,7 @@ const EditVaultItemModal = ({ isOpen, onClose, onSave, item }: EditVaultItemModa
               <SelectContent>
                 {VAULT_CATEGORIES.map((cat) => (
                   <SelectItem key={cat.id} value={cat.id}>
-                    {cat.label}
+                    {cat.name}
                   </SelectItem>
                 ))}
               </SelectContent>
@@ -90,6 +84,11 @@ const EditVaultItemModal = ({ isOpen, onClose, onSave, item }: EditVaultItemModa
               rows={4}
             />
           </div>
+
+          <UnlockDatePicker
+            unlockDate={formData.unlock_date}
+            onChange={(date) => setFormData({ ...formData, unlock_date: date })}
+          />
 
           <div className="flex justify-end space-x-2">
             <Button type="button" variant="outline" onClick={onClose}>

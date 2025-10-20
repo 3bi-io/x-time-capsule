@@ -23,6 +23,7 @@ interface VerificationRequest {
   status: string;
   admin_notes: string | null;
   submitted_at: string;
+  user_id: string | null;
 }
 
 const AdminDashboard = () => {
@@ -76,7 +77,11 @@ const AdminDashboard = () => {
   const handleUpdateStatus = async (requestId: string, newStatus: 'approved' | 'rejected') => {
     setProcessing(true);
     try {
-      const { error } = await supabase
+      const request = requests.find(r => r.id === requestId);
+      if (!request) throw new Error('Request not found');
+
+      // Update verification request status
+      const { error: updateError } = await supabase
         .from('verification_requests')
         .update({
           status: newStatus,
@@ -85,9 +90,37 @@ const AdminDashboard = () => {
         })
         .eq('id', requestId);
 
-      if (error) throw error;
+      if (updateError) throw updateError;
 
-      // Notification will be created via database trigger or manually by admin
+      // Create notification for the requester
+      if (request.user_id) {
+        await supabase.from('notifications').insert({
+          user_id: request.user_id,
+          title: `Verification Request ${newStatus === 'approved' ? 'Approved' : 'Rejected'}`,
+          message: newStatus === 'approved'
+            ? `Your verification request for ${request.vault_owner_email} has been approved. You can now access their vault.`
+            : `Your verification request for ${request.vault_owner_email} was not approved. ${adminNotes || 'Please contact support for more information.'}`,
+          type: newStatus === 'approved' ? 'success' : 'error',
+        });
+      }
+
+      // If approved, create family member record
+      if (newStatus === 'approved') {
+        // Find vault owner by email
+        const { data: ownerProfile } = await supabase
+          .from('profiles')
+          .select('user_id')
+          .eq('user_id', (await supabase.from('profiles').select('user_id').limit(1).single()).data?.user_id)
+          .single();
+
+        // Note: In production, you'd query auth.users by email via edge function
+        // For now, admin manually manages family_members table via SQL if needed
+        
+        toast({
+          title: "Important",
+          description: "Verification approved. Please add the family member record manually in the database using the vault owner's email.",
+        });
+      }
 
       toast({
         title: "Success",

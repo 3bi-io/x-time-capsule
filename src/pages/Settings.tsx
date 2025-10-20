@@ -9,7 +9,22 @@ import { useToast } from "@/hooks/use-toast";
 import { useAuth } from "@/contexts/AuthContext";
 import { supabase } from "@/integrations/supabase/client";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Shield, User, Bell } from "lucide-react";
+import { Shield, User, Bell, AlertCircle } from "lucide-react";
+import { Alert, AlertDescription } from "@/components/ui/alert";
+import { z } from "zod";
+
+const passwordSchema = z.object({
+  newPassword: z
+    .string()
+    .min(8, "Password must be at least 8 characters")
+    .regex(/[A-Z]/, "Password must contain at least one uppercase letter")
+    .regex(/[0-9]/, "Password must contain at least one number")
+    .regex(/[^A-Za-z0-9]/, "Password must contain at least one special character"),
+  confirmPassword: z.string(),
+}).refine((data) => data.newPassword === data.confirmPassword, {
+  message: "Passwords don't match",
+  path: ["confirmPassword"],
+});
 
 const Settings = () => {
   const { toast } = useToast();
@@ -19,30 +34,17 @@ const Settings = () => {
     newPassword: "",
     confirmPassword: "",
   });
+  const [validationErrors, setValidationErrors] = useState<string[]>([]);
 
   const handlePasswordChange = async (e: React.FormEvent) => {
     e.preventDefault();
+    setValidationErrors([]);
 
-    if (passwordData.newPassword !== passwordData.confirmPassword) {
-      toast({
-        title: "Error",
-        description: "Passwords do not match",
-        variant: "destructive",
-      });
-      return;
-    }
-
-    if (passwordData.newPassword.length < 8) {
-      toast({
-        title: "Error",
-        description: "Password must be at least 8 characters",
-        variant: "destructive",
-      });
-      return;
-    }
-
-    setLoading(true);
     try {
+      // Validate password
+      passwordSchema.parse(passwordData);
+
+      setLoading(true);
       const { error } = await supabase.auth.updateUser({
         password: passwordData.newPassword,
       });
@@ -56,11 +58,15 @@ const Settings = () => {
 
       setPasswordData({ newPassword: "", confirmPassword: "" });
     } catch (error: any) {
-      toast({
-        title: "Error",
-        description: error.message || "Failed to update password",
-        variant: "destructive",
-      });
+      if (error instanceof z.ZodError) {
+        setValidationErrors(error.errors.map(err => err.message));
+      } else {
+        toast({
+          title: "Error",
+          description: error.message || "Failed to update password",
+          variant: "destructive",
+        });
+      }
     } finally {
       setLoading(false);
     }
@@ -99,7 +105,20 @@ const Settings = () => {
                 </CardHeader>
                 <CardContent>
                   <form onSubmit={handlePasswordChange} className="space-y-4">
-                    <div>
+                    {validationErrors.length > 0 && (
+                      <Alert variant="destructive">
+                        <AlertCircle className="h-4 w-4" />
+                        <AlertDescription>
+                          <ul className="list-disc list-inside space-y-1">
+                            {validationErrors.map((error, index) => (
+                              <li key={index}>{error}</li>
+                            ))}
+                          </ul>
+                        </AlertDescription>
+                      </Alert>
+                    )}
+
+                    <div className="space-y-2">
                       <Label htmlFor="newPassword">New Password</Label>
                       <Input
                         id="newPassword"
@@ -111,6 +130,9 @@ const Settings = () => {
                         placeholder="Enter new password"
                         required
                       />
+                      <p className="text-xs text-muted-foreground">
+                        Must be at least 8 characters with uppercase, number, and special character
+                      </p>
                     </div>
 
                     <div>

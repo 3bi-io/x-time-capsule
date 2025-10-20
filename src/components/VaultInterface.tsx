@@ -5,14 +5,18 @@ import CategoryButton from "./vault/CategoryButton";
 import VaultItem from "./vault/VaultItem";
 import { VAULT_CATEGORIES } from "@/data/constants";
 import { AddVaultItemModal } from "./vault/AddVaultItemModal";
-import { useVaultData } from "@/hooks/useVaultData";
+import EditVaultItemModal from "./vault/EditVaultItemModal";
+import { useVaultData, type TimeCapsule } from "@/hooks/useVaultData";
 import { Skeleton } from "@/components/ui/skeleton";
 import type { VaultItemInput } from "@/lib/validationSchemas";
+import EmptyState from "./EmptyState";
+import { FileText } from "lucide-react";
 
 const VaultInterface = () => {
   const [selectedCategory, setSelectedCategory] = useState("all");
   const [modalOpen, setModalOpen] = useState(false);
-  const { timeCapsules, loading, addTimeCapsule } = useVaultData();
+  const [editingItem, setEditingItem] = useState<TimeCapsule | null>(null);
+  const { timeCapsules, loading, addTimeCapsule, updateTimeCapsule, deleteTimeCapsule } = useVaultData();
 
   const handleAddItem = async (item: VaultItemInput) => {
     await addTimeCapsule({
@@ -21,6 +25,20 @@ const VaultInterface = () => {
       category: item.category,
       content: item.content || {},
     });
+  };
+
+  const handleEditItem = (id: string) => {
+    const item = timeCapsules.find(item => item.id === id);
+    if (item) setEditingItem(item);
+  };
+
+  const handleSaveEdit = async (id: string, updates: Partial<TimeCapsule>) => {
+    await updateTimeCapsule(id, updates);
+    setEditingItem(null);
+  };
+
+  const handleDeleteItem = async (id: string) => {
+    await deleteTimeCapsule(id);
   };
 
   // Calculate counts for each category
@@ -79,22 +97,28 @@ const VaultInterface = () => {
                   ))}
                 </>
               ) : filteredItems.length === 0 ? (
-                <div className="text-center py-12 text-muted-foreground border-2 border-dashed rounded-lg">
-                  <p className="text-lg font-medium mb-2">No items yet</p>
-                  <p className="text-sm">
-                    {selectedCategory === "all" 
-                      ? "Get started by adding your first vault item" 
-                      : "No items in this category"}
-                  </p>
-                </div>
+                <EmptyState
+                  icon={FileText}
+                  title={selectedCategory === "all" ? "No vault items yet" : "No items in this category"}
+                  description={
+                    selectedCategory === "all"
+                      ? "Protect your important information by adding your first vault item"
+                      : `No items have been added to the ${VAULT_CATEGORIES.find(c => c.id === selectedCategory)?.name || 'this'} category yet`
+                  }
+                  actionLabel="Add First Item"
+                  onAction={() => setModalOpen(true)}
+                />
               ) : (
                 filteredItems.map((item) => (
                   <VaultItem
                     key={item.id}
+                    id={item.id}
                     name={item.title}
                     type={item.category}
                     date={new Date(item.created_at).toLocaleDateString()}
                     status="Active"
+                    onEdit={handleEditItem}
+                    onDelete={handleDeleteItem}
                   />
                 ))
               )}
@@ -117,6 +141,14 @@ const VaultInterface = () => {
         onOpenChange={setModalOpen}
         onAdd={handleAddItem}
       />
+      {editingItem && (
+        <EditVaultItemModal
+          isOpen={!!editingItem}
+          onClose={() => setEditingItem(null)}
+          onSave={handleSaveEdit}
+          item={editingItem}
+        />
+      )}
     </section>
   );
 };

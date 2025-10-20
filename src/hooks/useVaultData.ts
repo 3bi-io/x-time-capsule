@@ -12,6 +12,7 @@ export interface TimeCapsule {
   is_active: boolean;
   created_at: string;
   updated_at: string;
+  unlock_date?: string | null;
 }
 
 type NewTimeCapsule = Omit<TimeCapsule, 'id' | 'created_at' | 'updated_at' | 'is_active'>;
@@ -86,6 +87,11 @@ export const useVaultData = () => {
       setTimeCapsules(prev => 
         prev.map(item => item.id === id ? { ...item, ...updates } : item)
       );
+      
+      toast({
+        title: "Item updated",
+        description: "Your vault item has been updated successfully.",
+      });
     } catch (error: any) {
       toast({
         title: "Error updating item",

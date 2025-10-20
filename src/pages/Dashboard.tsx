@@ -97,34 +97,30 @@ const Dashboard = () => {
               </CardHeader>
               <CardContent className="px-4 sm:px-6">
                 {notifications.length === 0 ? (
-                  <div className="text-center py-8">
-                    <p className="text-sm text-muted-foreground">No recent activity</p>
-                    <p className="text-xs text-muted-foreground mt-1">
-                      Your notifications will appear here
-                    </p>
-                  </div>
+                  <p className="text-sm text-muted-foreground py-4">No notifications yet</p>
                 ) : (
                   <div className="space-y-3">
                     {notifications.slice(0, 5).map((notification) => (
                       <div
                         key={notification.id}
-                        className="flex items-start space-x-3 text-sm p-3 rounded-lg hover:bg-muted cursor-pointer transition-colors"
+                        className={`p-3 rounded-lg border cursor-pointer hover:bg-accent transition-colors ${
+                          notification.is_read ? 'bg-background' : 'bg-blue-50 border-blue-200'
+                        }`}
                         onClick={() => !notification.is_read && markAsRead(notification.id)}
                       >
-                        <div className={`w-2 h-2 rounded-full mt-1.5 flex-shrink-0 ${
-                          notification.type === "success" ? "bg-emerald-500" :
-                          notification.type === "error" ? "bg-red-500" :
-                          "bg-blue-500"
-                        }`} />
-                        <div className="flex-1 min-w-0">
-                          <div className="flex items-center justify-between gap-2">
-                            <p className="font-medium truncate">{notification.title}</p>
-                            {!notification.is_read && (
-                              <Badge variant="secondary" className="text-xs flex-shrink-0">New</Badge>
-                            )}
-                          </div>
-                          <p className="text-muted-foreground text-xs">{notification.message}</p>
+                        <div className="flex justify-between items-start mb-1">
+                          <p className="text-sm font-medium">{notification.title}</p>
+                          <Badge 
+                            variant={notification.type === 'success' ? 'default' : notification.type === 'error' ? 'destructive' : 'secondary'}
+                            className="text-xs"
+                          >
+                            {notification.type}
+                          </Badge>
                         </div>
+                        <p className="text-xs text-muted-foreground">{notification.message}</p>
+                        <p className="text-xs text-muted-foreground mt-1">
+                          {new Date(notification.created_at).toLocaleDateString()}
+                        </p>
                       </div>
                     ))}
                   </div>
