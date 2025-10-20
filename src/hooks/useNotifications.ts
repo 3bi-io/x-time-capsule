@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useAuth } from '@/contexts/AuthContext';
+import { supabase } from '@/integrations/supabase/client';
 
 export interface Notification {
   id: string;
@@ -15,21 +16,58 @@ export const useNotifications = () => {
   const [notifications, setNotifications] = useState<Notification[]>([]);
   const [loading, setLoading] = useState(true);
 
+  const fetchNotifications = async () => {
+    if (!user) {
+      setNotifications([]);
+      setLoading(false);
+      return;
+    }
+
+    try {
+      const { data, error } = await supabase
+        .from('notifications')
+        .select('*')
+        .eq('user_id', user.id)
+        .order('created_at', { ascending: false });
+
+      if (error) throw error;
+      setNotifications(data || []);
+    } catch (error) {
+      console.error('Error fetching notifications:', error);
+      setNotifications([]);
+    } finally {
+      setLoading(false);
+    }
+  };
+
   useEffect(() => {
-    // Temporarily disabled until migration is approved
-    // Once migration is approved, this will fetch from the notifications table
-    setNotifications([]);
-    setLoading(false);
+    fetchNotifications();
   }, [user]);
 
   const markAsRead = async (notificationId: string) => {
-    // Temporarily disabled until migration is approved
-    console.log('Mark as read:', notificationId);
+    if (!user) return;
+
+    try {
+      const { error } = await supabase
+        .from('notifications')
+        .update({ is_read: true })
+        .eq('id', notificationId)
+        .eq('user_id', user.id);
+
+      if (error) throw error;
+
+      setNotifications((prev) =>
+        prev.map((notif) =>
+          notif.id === notificationId ? { ...notif, is_read: true } : notif
+        )
+      );
+    } catch (error) {
+      console.error('Error marking notification as read:', error);
+    }
   };
 
   const refreshNotifications = async () => {
-    // Temporarily disabled until migration is approved
-    setNotifications([]);
+    await fetchNotifications();
   };
 
   return { notifications, loading, markAsRead, refreshNotifications };

@@ -71,6 +71,7 @@ const Auth = () => {
       const validated = signUpSchema.parse({
         email: formData.email,
         password: formData.password,
+        confirmPassword: formData.confirmPassword,
         fullName: formData.fullName,
       });
 

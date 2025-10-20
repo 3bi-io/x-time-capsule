@@ -28,7 +28,24 @@ const VerificationProcess = () => {
 
   const handleSubmit = async () => {
     if (step < 3) {
+      if (step === 1 && !user) {
+        toast({
+          title: "Authentication Required",
+          description: "Please sign in to continue with your verification request.",
+          variant: "destructive",
+        });
+        return;
+      }
       setStep(step + 1);
+      return;
+    }
+
+    if (!user) {
+      toast({
+        title: "Authentication Required",
+        description: "Please sign in to submit your verification request.",
+        variant: "destructive",
+      });
       return;
     }
 
@@ -39,7 +56,7 @@ const VerificationProcess = () => {
       const { error } = await supabase
         .from('verification_requests')
         .insert({
-          user_id: user!.id,
+          user_id: user.id,
           full_name: validated.fullName,
           requester_email: validated.requesterEmail,
           vault_owner_email: validated.vaultOwnerEmail,
