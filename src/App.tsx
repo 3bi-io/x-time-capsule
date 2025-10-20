@@ -1,4 +1,3 @@
-
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
@@ -15,6 +14,12 @@ import Dashboard from "./pages/Dashboard";
 import AdminDashboard from "./pages/AdminDashboard";
 import FamilyMembers from "./pages/FamilyMembers";
 import Settings from "./pages/Settings";
+import HelpCenter from "./pages/HelpCenter";
+import Contact from "./pages/Contact";
+import Documentation from "./pages/Documentation";
+import PrivacyPolicy from "./pages/PrivacyPolicy";
+import TermsOfService from "./pages/TermsOfService";
+import Compliance from "./pages/Compliance";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -32,6 +37,12 @@ const App = () => (
             <Route path="/security" element={<Security />} />
             <Route path="/auth" element={<Auth />} />
             <Route path="/emergency-access" element={<EmergencyAccess />} />
+            <Route path="/help-center" element={<HelpCenter />} />
+            <Route path="/contact" element={<Contact />} />
+            <Route path="/documentation" element={<Documentation />} />
+            <Route path="/privacy-policy" element={<PrivacyPolicy />} />
+            <Route path="/terms-of-service" element={<TermsOfService />} />
+            <Route path="/compliance" element={<Compliance />} />
             <Route 
               path="/dashboard" 
               element={

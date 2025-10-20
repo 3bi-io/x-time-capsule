@@ -26,20 +26,20 @@ const Footer = () => {
           <div>
             <h4 className="font-semibold mb-3 sm:mb-4 text-sm sm:text-base">Support</h4>
             <ul className="space-y-2 text-slate-300">
-              <li><Link to="#" className="hover:text-white transition-colors text-sm">Help Center</Link></li>
-              <li><Link to="#" className="hover:text-white transition-colors text-sm">Contact Us</Link></li>
+              <li><Link to="/help-center" className="hover:text-white transition-colors text-sm">Help Center</Link></li>
+              <li><Link to="/contact" className="hover:text-white transition-colors text-sm">Contact Us</Link></li>
               <li><Link to="/emergency-access" className="hover:text-white transition-colors text-sm">Emergency Access</Link></li>
-              <li><Link to="#" className="hover:text-white transition-colors text-sm">Documentation</Link></li>
+              <li><Link to="/documentation" className="hover:text-white transition-colors text-sm">Documentation</Link></li>
             </ul>
           </div>
           
           <div>
             <h4 className="font-semibold mb-3 sm:mb-4 text-sm sm:text-base">Legal</h4>
             <ul className="space-y-2 text-slate-300">
-              <li><Link to="#" className="hover:text-white transition-colors text-sm">Privacy Policy</Link></li>
-              <li><Link to="#" className="hover:text-white transition-colors text-sm">Terms of Service</Link></li>
+              <li><Link to="/privacy-policy" className="hover:text-white transition-colors text-sm">Privacy Policy</Link></li>
+              <li><Link to="/terms-of-service" className="hover:text-white transition-colors text-sm">Terms of Service</Link></li>
               <li><Link to="/security" className="hover:text-white transition-colors text-sm">Security</Link></li>
-              <li><Link to="#" className="hover:text-white transition-colors text-sm">Compliance</Link></li>
+              <li><Link to="/compliance" className="hover:text-white transition-colors text-sm">Compliance</Link></li>
             </ul>
           </div>
         </div>

@@ -4,6 +4,7 @@ import Footer from "@/components/Footer";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { CheckCircle, Shield, Upload, Users, Lock, Heart } from "lucide-react";
+import { Link } from "react-router-dom";
 
 const HowItWorks = () => {
   const steps = [
@@ -92,9 +93,11 @@ const HowItWorks = () => {
           <p className="text-lg sm:text-xl mb-6 sm:mb-8 text-blue-100">
             Join thousands of families who trust Time Capsule with their most important information.
           </p>
-          <Button size="lg" className="bg-white text-blue-600 hover:bg-blue-50 px-6 sm:px-8 py-3 sm:py-4 text-base sm:text-lg">
-            Get Started Today
-          </Button>
+          <Link to="/auth">
+            <Button size="lg" className="bg-white text-blue-600 hover:bg-blue-50 px-6 sm:px-8 py-3 sm:py-4 text-base sm:text-lg">
+              Get Started Today
+            </Button>
+          </Link>
         </div>
       </section>
 
