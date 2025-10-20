@@ -23,6 +23,12 @@ const VaultInterface = () => {
     });
   };
 
+  // Calculate counts for each category
+  const getCategoryCount = (categoryId: string) => {
+    if (categoryId === "all") return timeCapsules.length;
+    return timeCapsules.filter(item => item.category === categoryId).length;
+  };
+
   const filteredItems = selectedCategory === "all"
     ? timeCapsules
     : timeCapsules.filter(item => item.category === selectedCategory);
@@ -44,8 +50,8 @@ const VaultInterface = () => {
                 id="all"
                 name="All Items"
                 icon={Folder}
-                count={timeCapsules.length}
-                color="bg-slate-100"
+                count={getCategoryCount("all")}
+                color="bg-slate-100 text-slate-700"
                 isSelected={selectedCategory === "all"}
                 onClick={setSelectedCategory}
               />
@@ -55,7 +61,7 @@ const VaultInterface = () => {
                   id={category.id}
                   name={category.name}
                   icon={category.icon}
-                  count={timeCapsules.filter(t => t.category === category.id).length}
+                  count={getCategoryCount(category.id)}
                   color={category.color}
                   isSelected={selectedCategory === category.id}
                   onClick={setSelectedCategory}
@@ -74,8 +80,12 @@ const VaultInterface = () => {
                 </>
               ) : filteredItems.length === 0 ? (
                 <div className="text-center py-12 text-muted-foreground border-2 border-dashed rounded-lg">
-                  <p>No items in this category yet</p>
-                  <p className="text-sm mt-2">Click "Add New Item" to get started</p>
+                  <p className="text-lg font-medium mb-2">No items yet</p>
+                  <p className="text-sm">
+                    {selectedCategory === "all" 
+                      ? "Get started by adding your first vault item" 
+                      : "No items in this category"}
+                  </p>
                 </div>
               ) : (
                 filteredItems.map((item) => (
@@ -91,7 +101,7 @@ const VaultInterface = () => {
               
               <Button 
                 variant="outline" 
-                className="w-full py-8 border-dashed"
+                className="w-full py-8 border-dashed hover:border-solid hover:bg-slate-50"
                 onClick={() => setModalOpen(true)}
               >
                 <Plus className="h-5 w-5 mr-2" />

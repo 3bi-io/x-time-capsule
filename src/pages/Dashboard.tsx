@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import VaultInterface from "@/components/VaultInterface";
@@ -8,15 +9,25 @@ import { Badge } from "@/components/ui/badge";
 import { useAuth } from "@/contexts/AuthContext";
 import { useVaultData } from "@/hooks/useVaultData";
 import { useNotifications } from "@/hooks/useNotifications";
-import { useNavigate } from "react-router-dom";
 import { Shield, Users, Clock, Plus, Settings as SettingsIcon } from "lucide-react";
+import { AddVaultItemModal } from "@/components/vault/AddVaultItemModal";
+import type { VaultItemInput } from "@/lib/validationSchemas";
 
 const Dashboard = () => {
   const { user } = useAuth();
   const navigate = useNavigate();
-  const { timeCapsules, loading } = useVaultData();
+  const { timeCapsules, loading, addTimeCapsule } = useVaultData();
   const { notifications, markAsRead } = useNotifications();
   const [showAddModal, setShowAddModal] = useState(false);
+
+  const handleAddItem = async (item: VaultItemInput) => {
+    await addTimeCapsule({
+      title: item.title,
+      description: item.description || "",
+      category: item.category,
+      content: item.content || {},
+    });
+  };
 
   const stats = [
     { 
@@ -25,7 +36,12 @@ const Dashboard = () => {
       icon: Shield, 
       color: "text-blue-600" 
     },
-    { label: "Family Members", value: "0", icon: Users, color: "text-green-600" },
+    { 
+      label: "Family Members", 
+      value: "0", 
+      icon: Users, 
+      color: "text-green-600" 
+    },
     { 
       label: "Account Created", 
       value: user?.created_at ? new Date(user.created_at).toLocaleDateString() : "Today", 
@@ -81,15 +97,18 @@ const Dashboard = () => {
               </CardHeader>
               <CardContent className="px-4 sm:px-6">
                 {notifications.length === 0 ? (
-                  <p className="text-sm text-muted-foreground text-center py-4">
-                    No recent notifications
-                  </p>
+                  <div className="text-center py-8">
+                    <p className="text-sm text-muted-foreground">No recent activity</p>
+                    <p className="text-xs text-muted-foreground mt-1">
+                      Your notifications will appear here
+                    </p>
+                  </div>
                 ) : (
                   <div className="space-y-3">
                     {notifications.slice(0, 5).map((notification) => (
                       <div
                         key={notification.id}
-                        className="flex items-start space-x-3 text-sm p-3 rounded-lg hover:bg-muted cursor-pointer"
+                        className="flex items-start space-x-3 text-sm p-3 rounded-lg hover:bg-muted cursor-pointer transition-colors"
                         onClick={() => !notification.is_read && markAsRead(notification.id)}
                       >
                         <div className={`w-2 h-2 rounded-full mt-1.5 flex-shrink-0 ${
@@ -97,14 +116,14 @@ const Dashboard = () => {
                           notification.type === "error" ? "bg-red-500" :
                           "bg-blue-500"
                         }`} />
-                        <div className="flex-1">
-                          <div className="flex items-center justify-between">
-                            <p className="font-medium">{notification.title}</p>
+                        <div className="flex-1 min-w-0">
+                          <div className="flex items-center justify-between gap-2">
+                            <p className="font-medium truncate">{notification.title}</p>
                             {!notification.is_read && (
-                              <Badge variant="secondary" className="text-xs">New</Badge>
+                              <Badge variant="secondary" className="text-xs flex-shrink-0">New</Badge>
                             )}
                           </div>
-                          <p className="text-muted-foreground">{notification.message}</p>
+                          <p className="text-muted-foreground text-xs">{notification.message}</p>
                         </div>
                       </div>
                     ))}
@@ -121,35 +140,35 @@ const Dashboard = () => {
                 <div className="grid grid-cols-2 gap-3 sm:gap-4">
                   <Button
                     variant="outline"
-                    className="h-16 sm:h-20 flex flex-col space-y-1 sm:space-y-2 text-xs sm:text-sm"
+                    className="h-20 sm:h-24 flex flex-col justify-center space-y-2 text-xs sm:text-sm hover:bg-slate-50 transition-colors"
                     onClick={() => navigate('/family-members')}
                   >
-                    <Users className="h-4 w-4 sm:h-6 sm:w-6" />
-                    <span className="text-center">Manage Family Access</span>
+                    <Users className="h-5 w-5 sm:h-6 sm:w-6" />
+                    <span className="text-center">Manage Family</span>
                   </Button>
                   <Button
                     variant="outline"
-                    className="h-16 sm:h-20 flex flex-col space-y-1 sm:space-y-2 text-xs sm:text-sm"
+                    className="h-20 sm:h-24 flex flex-col justify-center space-y-2 text-xs sm:text-sm hover:bg-slate-50 transition-colors"
                     onClick={() => navigate('/settings')}
                   >
-                    <Shield className="h-4 w-4 sm:h-6 sm:w-6" />
-                    <span className="text-center">Security Settings</span>
+                    <Shield className="h-5 w-5 sm:h-6 sm:w-6" />
+                    <span className="text-center">Security</span>
                   </Button>
                   <Button
                     variant="outline"
-                    className="h-16 sm:h-20 flex flex-col space-y-1 sm:space-y-2 text-xs sm:text-sm"
+                    className="h-20 sm:h-24 flex flex-col justify-center space-y-2 text-xs sm:text-sm hover:bg-slate-50 transition-colors"
                     onClick={() => setShowAddModal(true)}
                   >
-                    <Plus className="h-4 w-4 sm:h-6 sm:w-6" />
-                    <span className="text-center">Add Vault Item</span>
+                    <Plus className="h-5 w-5 sm:h-6 sm:w-6" />
+                    <span className="text-center">Add Item</span>
                   </Button>
                   <Button
                     variant="outline"
-                    className="h-16 sm:h-20 flex flex-col space-y-1 sm:space-y-2 text-xs sm:text-sm"
+                    className="h-20 sm:h-24 flex flex-col justify-center space-y-2 text-xs sm:text-sm hover:bg-slate-50 transition-colors"
                     onClick={() => navigate('/settings')}
                   >
-                    <SettingsIcon className="h-4 w-4 sm:h-6 sm:w-6" />
-                    <span className="text-center">Account Settings</span>
+                    <SettingsIcon className="h-5 w-5 sm:h-6 sm:w-6" />
+                    <span className="text-center">Settings</span>
                   </Button>
                 </div>
               </CardContent>
@@ -160,6 +179,12 @@ const Dashboard = () => {
 
       <VaultInterface />
       <Footer />
+
+      <AddVaultItemModal
+        open={showAddModal}
+        onOpenChange={setShowAddModal}
+        onAdd={handleAddItem}
+      />
     </div>
   );
 };

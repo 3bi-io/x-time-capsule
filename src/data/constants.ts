@@ -1,33 +1,36 @@
-
 import { FileText, Heart, Lock, User, Shield, Eye, Clock } from "lucide-react";
+import { LucideIcon } from "lucide-react";
 
-export const VAULT_CATEGORIES = [
+export interface VaultCategory {
+  id: string;
+  name: string;
+  icon: LucideIcon;
+  color: string;
+}
+
+export const VAULT_CATEGORIES: VaultCategory[] = [
   {
     id: "documents",
     name: "Legal Documents",
     icon: FileText,
-    count: 12,
     color: "bg-blue-100 text-blue-700"
   },
   {
     id: "financial",
     name: "Financial Information",
     icon: Lock,
-    count: 8,
     color: "bg-emerald-100 text-emerald-700"
   },
   {
     id: "personal",
     name: "Personal Messages",
     icon: Heart,
-    count: 5,
     color: "bg-rose-100 text-rose-700"
   },
   {
     id: "contacts",
     name: "Important Contacts",
     icon: User,
-    count: 15,
     color: "bg-purple-100 text-purple-700"
   }
 ];
@@ -101,11 +104,4 @@ export const VERIFICATION_STEPS = [
     title: "Access Granted",
     description: "Secure access to the Time Capsule contents"
   }
-];
-
-export const MOCK_VAULT_ITEMS = [
-  { name: "Last Will and Testament", type: "PDF", date: "2024-01-15", status: "secured" },
-  { name: "Bank Account Information", type: "Document", date: "2024-01-10", status: "secured" },
-  { name: "Insurance Policies", type: "PDF", date: "2024-01-08", status: "secured" },
-  { name: "Letter to Sarah", type: "Message", date: "2024-01-20", status: "secured" }
 ];
