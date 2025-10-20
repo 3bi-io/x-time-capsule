@@ -14,6 +14,44 @@ export type Database = {
   }
   public: {
     Tables: {
+      access_logs: {
+        Row: {
+          action: string
+          created_at: string | null
+          id: string
+          ip_address: string | null
+          time_capsule_id: string
+          user_agent: string | null
+          user_id: string
+        }
+        Insert: {
+          action: string
+          created_at?: string | null
+          id?: string
+          ip_address?: string | null
+          time_capsule_id: string
+          user_agent?: string | null
+          user_id: string
+        }
+        Update: {
+          action?: string
+          created_at?: string | null
+          id?: string
+          ip_address?: string | null
+          time_capsule_id?: string
+          user_agent?: string | null
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "access_logs_time_capsule_id_fkey"
+            columns: ["time_capsule_id"]
+            isOneToOne: false
+            referencedRelation: "time_capsules"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       family_members: {
         Row: {
           access_level: string
@@ -116,6 +154,7 @@ export type Database = {
           id: string
           is_active: boolean
           title: string
+          unlock_date: string | null
           updated_at: string
           user_id: string
         }
@@ -127,6 +166,7 @@ export type Database = {
           id?: string
           is_active?: boolean
           title: string
+          unlock_date?: string | null
           updated_at?: string
           user_id: string
         }
@@ -138,6 +178,7 @@ export type Database = {
           id?: string
           is_active?: boolean
           title?: string
+          unlock_date?: string | null
           updated_at?: string
           user_id?: string
         }
@@ -217,11 +258,19 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
+      has_family_access: {
+        Args: { _access_level: string; _capsule_id: string; _user_id: string }
+        Returns: boolean
+      }
       has_role: {
         Args: {
           _role: Database["public"]["Enums"]["app_role"]
           _user_id: string
         }
+        Returns: boolean
+      }
+      is_capsule_unlocked: {
+        Args: { _capsule_id: string }
         Returns: boolean
       }
     }
