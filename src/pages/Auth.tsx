@@ -9,6 +9,7 @@ import { Shield } from "lucide-react";
 import { Link } from "react-router-dom";
 import { useAuth } from "@/contexts/AuthContext";
 import { toast } from "@/hooks/use-toast";
+import { signInSchema, signUpSchema } from "@/lib/validationSchemas";
 
 const Auth = () => {
   const { user, signIn, signUp } = useAuth();
@@ -37,7 +38,12 @@ const Auth = () => {
     setIsLoading(true);
     
     try {
-      const { error } = await signIn(formData.email, formData.password);
+      const validated = signInSchema.parse({
+        email: formData.email,
+        password: formData.password,
+      });
+
+      const { error } = await signIn(validated.email, validated.password);
       
       if (error) {
         toast({
@@ -46,65 +52,51 @@ const Auth = () => {
           variant: "destructive",
         });
       }
-    } catch (error) {
+    } catch (error: any) {
       toast({
-        title: "Sign In Failed",
-        description: "An unexpected error occurred.",
+        title: "Validation Error",
+        description: error.errors?.[0]?.message || "Invalid input",
         variant: "destructive",
       });
+    } finally {
+      setIsLoading(false);
     }
-    
-    setIsLoading(false);
   };
 
   const handleSignUp = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsLoading(true);
-    
-    if (formData.password !== formData.confirmPassword) {
-      toast({
-        title: "Password Mismatch",
-        description: "Passwords do not match.",
-        variant: "destructive",
-      });
-      setIsLoading(false);
-      return;
-    }
 
-    if (formData.password.length < 6) {
-      toast({
-        title: "Password Too Short",
-        description: "Password must be at least 6 characters long.",
-        variant: "destructive",
-      });
-      setIsLoading(false);
-      return;
-    }
-    
     try {
-      const { error } = await signUp(formData.email, formData.password, formData.fullName);
-      
+      const validated = signUpSchema.parse({
+        email: formData.email,
+        password: formData.password,
+        fullName: formData.fullName,
+      });
+
+      const { error } = await signUp(validated.email, validated.password, validated.fullName);
+
       if (error) {
         toast({
-          title: "Sign Up Failed",
-          description: error.message || "An error occurred during sign up.",
+          title: "Sign up failed",
+          description: error.message,
           variant: "destructive",
         });
       } else {
         toast({
-          title: "Account Created",
-          description: "Please check your email to verify your account.",
+          title: "Success!",
+          description: "Account created! Please check your email to verify your account.",
         });
       }
-    } catch (error) {
+    } catch (error: any) {
       toast({
-        title: "Sign Up Failed",
-        description: "An unexpected error occurred.",
+        title: "Validation Error",
+        description: error.errors?.[0]?.message || "Invalid input",
         variant: "destructive",
       });
+    } finally {
+      setIsLoading(false);
     }
-    
-    setIsLoading(false);
   };
 
   return (

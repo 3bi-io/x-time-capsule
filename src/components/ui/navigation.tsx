@@ -1,10 +1,10 @@
-
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
-import { Menu, X } from "lucide-react";
+import { Menu } from "lucide-react";
 import { useState } from "react";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { useAuth } from "@/contexts/AuthContext";
+import { useAdminCheck } from "@/hooks/useAdminCheck";
 
 interface NavigationProps {
   variant?: "header" | "footer";
@@ -13,6 +13,7 @@ interface NavigationProps {
 const Navigation = ({ variant = "header" }: NavigationProps) => {
   const [isOpen, setIsOpen] = useState(false);
   const { user, signOut } = useAuth();
+  const { isAdmin } = useAdminCheck();
   
   const navItems = [
     { href: "/how-it-works", label: "How It Works" },
@@ -40,6 +41,13 @@ const Navigation = ({ variant = "header" }: NavigationProps) => {
                   Dashboard
                 </Button>
               </Link>
+              {isAdmin && (
+                <Link to="/admin">
+                  <Button variant="outline" className="border-blue-400 text-blue-400 hover:bg-blue-400 hover:text-white text-sm lg:text-base px-3 lg:px-4">
+                    Admin
+                  </Button>
+                </Link>
+              )}
               <Button 
                 onClick={signOut}
                 variant="outline" 
@@ -92,6 +100,13 @@ const Navigation = ({ variant = "header" }: NavigationProps) => {
                           Dashboard
                         </Button>
                       </Link>
+                      {isAdmin && (
+                        <Link to="/admin" onClick={() => setIsOpen(false)}>
+                          <Button variant="outline" className="w-full border-blue-400 text-blue-400 hover:bg-blue-400 hover:text-white">
+                            Admin
+                          </Button>
+                        </Link>
+                      )}
                       <Button 
                         onClick={() => {
                           setIsOpen(false);

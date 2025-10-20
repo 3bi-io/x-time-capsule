@@ -1,13 +1,32 @@
-
 import { useState } from "react";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import CategoryButton from "@/components/vault/CategoryButton";
-import VaultItem from "@/components/vault/VaultItem";
-import { VAULT_CATEGORIES, MOCK_VAULT_ITEMS } from "@/data/constants";
+import { Plus } from "lucide-react";
+import CategoryButton from "./vault/CategoryButton";
+import VaultItem from "./vault/VaultItem";
+import { VAULT_CATEGORIES } from "@/data/constants";
+import { AddVaultItemModal } from "./vault/AddVaultItemModal";
+import { useVaultData } from "@/hooks/useVaultData";
+import { Skeleton } from "@/components/ui/skeleton";
+import type { VaultItemInput } from "@/lib/validationSchemas";
 
 const VaultInterface = () => {
-  const [selectedCategory, setSelectedCategory] = useState("documents");
+  const [selectedCategory, setSelectedCategory] = useState("all");
+  const [modalOpen, setModalOpen] = useState(false);
+  const { timeCapsules, loading, addTimeCapsule } = useVaultData();
+
+  const handleAddItem = async (item: VaultItemInput) => {
+    await addTimeCapsule({
+      title: item.title,
+      description: item.description || "",
+      category: item.category,
+      content: item.content || {},
+      user_id: "", // Will be set by the hook
+    });
+  };
+
+  const filteredItems = selectedCategory === "all"
+    ? timeCapsules
+    : timeCapsules.filter(item => item.category === selectedCategory);
 
   return (
     <section className="py-16 px-6 bg-white">
@@ -21,54 +40,74 @@ const VaultInterface = () => {
 
         <div className="grid lg:grid-cols-4 gap-6">
           <div className="lg:col-span-1">
-            <Card>
-              <CardHeader>
-                <CardTitle className="text-lg">Categories</CardTitle>
-              </CardHeader>
-              <CardContent className="space-y-2">
-                {VAULT_CATEGORIES.map((category) => (
-                  <CategoryButton
-                    key={category.id}
-                    id={category.id}
-                    name={category.name}
-                    icon={category.icon}
-                    count={category.count}
-                    color={category.color}
-                    isSelected={selectedCategory === category.id}
-                    onClick={setSelectedCategory}
-                  />
-                ))}
-              </CardContent>
-            </Card>
+            <div className="space-y-2">
+              <CategoryButton
+                id="all"
+                name="All Items"
+                icon="Folder"
+                count={timeCapsules.length}
+                color="bg-slate-100"
+                isSelected={selectedCategory === "all"}
+                onClick={setSelectedCategory}
+              />
+              {VAULT_CATEGORIES.map((category) => (
+                <CategoryButton
+                  key={category.id}
+                  id={category.id}
+                  name={category.name}
+                  icon={category.icon}
+                  count={timeCapsules.filter(t => t.category === category.id).length}
+                  color={category.color}
+                  isSelected={selectedCategory === category.id}
+                  onClick={setSelectedCategory}
+                />
+              ))}
+            </div>
           </div>
 
           <div className="lg:col-span-3">
-            <Card>
-              <CardHeader className="flex flex-row items-center justify-between">
-                <CardTitle>
-                  {VAULT_CATEGORIES.find(c => c.id === selectedCategory)?.name}
-                </CardTitle>
-                <Button className="bg-blue-600 hover:bg-blue-700">
-                  Add New Item
-                </Button>
-              </CardHeader>
-              <CardContent>
-                <div className="space-y-4">
-                  {MOCK_VAULT_ITEMS.map((item, index) => (
-                    <VaultItem
-                      key={index}
-                      name={item.name}
-                      type={item.type}
-                      date={item.date}
-                      status={item.status}
-                    />
+            <div className="space-y-4">
+              {loading ? (
+                <>
+                  {[1, 2, 3].map((i) => (
+                    <Skeleton key={i} className="h-20 w-full" />
                   ))}
+                </>
+              ) : filteredItems.length === 0 ? (
+                <div className="text-center py-12 text-muted-foreground border-2 border-dashed rounded-lg">
+                  <p>No items in this category yet</p>
+                  <p className="text-sm mt-2">Click "Add New Item" to get started</p>
                 </div>
-              </CardContent>
-            </Card>
+              ) : (
+                filteredItems.map((item) => (
+                  <VaultItem
+                    key={item.id}
+                    name={item.title}
+                    type={item.category}
+                    date={new Date(item.created_at).toLocaleDateString()}
+                    status="Active"
+                  />
+                ))
+              )}
+              
+              <Button 
+                variant="outline" 
+                className="w-full py-8 border-dashed"
+                onClick={() => setModalOpen(true)}
+              >
+                <Plus className="h-5 w-5 mr-2" />
+                Add New Item
+              </Button>
+            </div>
           </div>
         </div>
       </div>
+
+      <AddVaultItemModal
+        open={modalOpen}
+        onOpenChange={setModalOpen}
+        onAdd={handleAddItem}
+      />
     </section>
   );
 };
