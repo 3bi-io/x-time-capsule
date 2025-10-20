@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
-import { Plus } from "lucide-react";
+import { Plus, Folder } from "lucide-react";
 import CategoryButton from "./vault/CategoryButton";
 import VaultItem from "./vault/VaultItem";
 import { VAULT_CATEGORIES } from "@/data/constants";
@@ -20,7 +20,6 @@ const VaultInterface = () => {
       description: item.description || "",
       category: item.category,
       content: item.content || {},
-      user_id: "", // Will be set by the hook
     });
   };
 
@@ -44,7 +43,7 @@ const VaultInterface = () => {
               <CategoryButton
                 id="all"
                 name="All Items"
-                icon="Folder"
+                icon={Folder}
                 count={timeCapsules.length}
                 color="bg-slate-100"
                 isSelected={selectedCategory === "all"}

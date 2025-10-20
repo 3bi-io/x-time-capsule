@@ -14,6 +14,8 @@ export interface TimeCapsule {
   updated_at: string;
 }
 
+type NewTimeCapsule = Omit<TimeCapsule, 'id' | 'created_at' | 'updated_at' | 'is_active'>;
+
 export const useVaultData = () => {
   const { user } = useAuth();
   const [timeCapsules, setTimeCapsules] = useState<TimeCapsule[]>([]);
@@ -43,7 +45,7 @@ export const useVaultData = () => {
     }
   };
 
-  const addTimeCapsule = async (capsule: Omit<TimeCapsule, 'id' | 'created_at' | 'updated_at'>) => {
+  const addTimeCapsule = async (capsule: NewTimeCapsule) => {
     if (!user) return;
 
     try {
