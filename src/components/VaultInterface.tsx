@@ -52,44 +52,46 @@ const VaultInterface = () => {
     : timeCapsules.filter(item => item.category === selectedCategory);
 
   return (
-    <section className="py-16 px-6 bg-white">
+    <section className="py-12 sm:py-16 px-4 sm:px-6 bg-white">
       <div className="max-w-6xl mx-auto">
-        <div className="text-center mb-12">
-          <h2 className="text-3xl font-bold text-slate-900 mb-4">Your Secure Digital Vault</h2>
-          <p className="text-slate-600 max-w-2xl mx-auto">
+        <div className="text-center mb-8 sm:mb-12">
+          <h2 className="text-2xl sm:text-3xl font-bold text-slate-900 mb-3 sm:mb-4">Your Secure Digital Vault</h2>
+          <p className="text-sm sm:text-base text-slate-600 max-w-2xl mx-auto px-4">
             Organize and protect your most important information in categories that make sense for your family.
           </p>
         </div>
 
-        <div className="grid lg:grid-cols-4 gap-6">
+        <div className="grid grid-cols-1 lg:grid-cols-4 gap-4 sm:gap-6">
           <div className="lg:col-span-1">
-            <div className="space-y-2">
-              <CategoryButton
-                id="all"
-                name="All Items"
-                icon={Folder}
-                count={getCategoryCount("all")}
-                color="bg-slate-100 text-slate-700"
-                isSelected={selectedCategory === "all"}
-                onClick={setSelectedCategory}
-              />
-              {VAULT_CATEGORIES.map((category) => (
+            <div className="space-y-2 overflow-x-auto lg:overflow-x-visible pb-2 lg:pb-0">
+              <div className="flex lg:flex-col gap-2 min-w-max lg:min-w-0">
                 <CategoryButton
-                  key={category.id}
-                  id={category.id}
-                  name={category.name}
-                  icon={category.icon}
-                  count={getCategoryCount(category.id)}
-                  color={category.color}
-                  isSelected={selectedCategory === category.id}
+                  id="all"
+                  name="All Items"
+                  icon={Folder}
+                  count={getCategoryCount("all")}
+                  color="bg-slate-100 text-slate-700"
+                  isSelected={selectedCategory === "all"}
                   onClick={setSelectedCategory}
                 />
-              ))}
+                {VAULT_CATEGORIES.map((category) => (
+                  <CategoryButton
+                    key={category.id}
+                    id={category.id}
+                    name={category.name}
+                    icon={category.icon}
+                    count={getCategoryCount(category.id)}
+                    color={category.color}
+                    isSelected={selectedCategory === category.id}
+                    onClick={setSelectedCategory}
+                  />
+                ))}
+              </div>
             </div>
           </div>
 
           <div className="lg:col-span-3">
-            <div className="space-y-4">
+            <div className="space-y-3 sm:space-y-4">
               {loading ? (
                 <>
                   {[1, 2, 3].map((i) => (
@@ -125,10 +127,10 @@ const VaultInterface = () => {
               
               <Button 
                 variant="outline" 
-                className="w-full py-8 border-dashed hover:border-solid hover:bg-slate-50"
+                className="w-full py-6 sm:py-8 border-dashed hover:border-solid hover:bg-slate-50 text-sm sm:text-base"
                 onClick={() => setModalOpen(true)}
               >
-                <Plus className="h-5 w-5 mr-2" />
+                <Plus className="h-4 w-4 sm:h-5 sm:w-5 mr-2" />
                 Add New Item
               </Button>
             </div>

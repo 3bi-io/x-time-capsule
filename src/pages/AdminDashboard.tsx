@@ -159,13 +159,13 @@ const AdminDashboard = () => {
   return (
     <div className="min-h-screen bg-background">
       <Header />
-      <main className="container mx-auto px-6 py-12">
-        <div className="mb-8">
-          <h1 className="text-4xl font-bold mb-2">Admin Dashboard</h1>
-          <p className="text-muted-foreground">Review and manage verification requests</p>
+      <main className="container mx-auto px-4 sm:px-6 py-8 sm:py-12">
+        <div className="mb-6 sm:mb-8">
+          <h1 className="text-2xl sm:text-3xl lg:text-4xl font-bold mb-1 sm:mb-2">Admin Dashboard</h1>
+          <p className="text-sm sm:text-base text-muted-foreground">Review and manage verification requests</p>
         </div>
 
-        <div className="grid gap-6 md:grid-cols-3 mb-8">
+        <div className="grid gap-4 sm:gap-6 grid-cols-1 sm:grid-cols-3 mb-6 sm:mb-8">
           <Card>
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
               <CardTitle className="text-sm font-medium">Pending</CardTitle>
@@ -195,44 +195,44 @@ const AdminDashboard = () => {
           </Card>
         </div>
 
-        <Tabs defaultValue="pending" className="space-y-4">
-          <TabsList>
-            <TabsTrigger value="pending">Pending ({pendingRequests.length})</TabsTrigger>
-            <TabsTrigger value="approved">Approved ({approvedRequests.length})</TabsTrigger>
-            <TabsTrigger value="rejected">Rejected ({rejectedRequests.length})</TabsTrigger>
+        <Tabs defaultValue="pending" className="space-y-3 sm:space-y-4">
+          <TabsList className="w-full grid grid-cols-3 h-auto">
+            <TabsTrigger value="pending" className="text-xs sm:text-sm py-2">Pending ({pendingRequests.length})</TabsTrigger>
+            <TabsTrigger value="approved" className="text-xs sm:text-sm py-2">Approved ({approvedRequests.length})</TabsTrigger>
+            <TabsTrigger value="rejected" className="text-xs sm:text-sm py-2">Rejected ({rejectedRequests.length})</TabsTrigger>
           </TabsList>
 
           {['pending', 'approved', 'rejected'].map((status) => {
             const filteredRequests = requests.filter(r => r.status === status);
             return (
-              <TabsContent key={status} value={status} className="space-y-4">
+              <TabsContent key={status} value={status} className="space-y-3 sm:space-y-4">
                 {filteredRequests.length === 0 ? (
                   <Card>
-                    <CardContent className="py-8 text-center text-muted-foreground">
+                    <CardContent className="py-8 text-center text-muted-foreground text-sm sm:text-base">
                       No {status} requests
                     </CardContent>
                   </Card>
                 ) : (
                   filteredRequests.map((request) => (
                     <Card key={request.id}>
-                      <CardHeader>
-                        <div className="flex items-start justify-between">
-                          <div>
-                            <CardTitle className="text-lg">{request.full_name}</CardTitle>
-                            <p className="text-sm text-muted-foreground mt-1">
+                      <CardHeader className="px-4 sm:px-6">
+                        <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-2">
+                          <div className="flex-1 min-w-0">
+                            <CardTitle className="text-base sm:text-lg truncate">{request.full_name}</CardTitle>
+                            <p className="text-xs sm:text-sm text-muted-foreground mt-1">
                               Submitted {new Date(request.submitted_at).toLocaleDateString()}
                             </p>
                           </div>
                           <Badge variant={
                             request.status === 'approved' ? 'default' :
                             request.status === 'rejected' ? 'destructive' : 'secondary'
-                          }>
+                          } className="self-start text-xs">
                             {request.status}
                           </Badge>
                         </div>
                       </CardHeader>
-                      <CardContent className="space-y-4">
-                        <div className="grid md:grid-cols-2 gap-4">
+                      <CardContent className="space-y-3 sm:space-y-4 px-4 sm:px-6">
+                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
                           <div>
                             <p className="text-sm font-medium">Requester Email</p>
                             <p className="text-sm text-muted-foreground">{request.requester_email}</p>
@@ -276,9 +276,9 @@ const AdminDashboard = () => {
                         )}
 
                         {request.status === 'pending' && (
-                          <div className="space-y-4 pt-4 border-t">
+                          <div className="space-y-3 sm:space-y-4 pt-3 sm:pt-4 border-t">
                             <div>
-                              <label className="text-sm font-medium mb-2 block">Admin Notes</label>
+                              <label className="text-xs sm:text-sm font-medium mb-2 block">Admin Notes</label>
                               <Textarea
                                 placeholder="Add notes about this verification..."
                                 value={selectedRequest === request.id ? adminNotes : ""}
@@ -287,13 +287,14 @@ const AdminDashboard = () => {
                                   setAdminNotes(e.target.value);
                                 }}
                                 rows={3}
+                                className="text-sm"
                               />
                             </div>
-                            <div className="flex gap-3">
+                            <div className="flex flex-col sm:flex-row gap-2 sm:gap-3">
                               <Button
                                 onClick={() => handleUpdateStatus(request.id, 'approved')}
                                 disabled={processing}
-                                className="flex-1"
+                                className="flex-1 text-sm sm:text-base"
                               >
                                 <CheckCircle className="h-4 w-4 mr-2" />
                                 Approve
@@ -302,7 +303,7 @@ const AdminDashboard = () => {
                                 onClick={() => handleUpdateStatus(request.id, 'rejected')}
                                 disabled={processing}
                                 variant="destructive"
-                                className="flex-1"
+                                className="flex-1 text-sm sm:text-base"
                               >
                                 <XCircle className="h-4 w-4 mr-2" />
                                 Reject

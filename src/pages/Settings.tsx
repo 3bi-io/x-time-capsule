@@ -75,36 +75,36 @@ const Settings = () => {
   return (
     <div className="min-h-screen bg-background">
       <Header />
-      <main className="container mx-auto px-6 py-12">
+      <main className="container mx-auto px-4 sm:px-6 py-8 sm:py-12">
         <div className="max-w-4xl mx-auto">
-          <h1 className="text-4xl font-bold mb-8">Settings</h1>
+          <h1 className="text-2xl sm:text-3xl lg:text-4xl font-bold mb-6 sm:mb-8">Settings</h1>
 
-          <Tabs defaultValue="security" className="space-y-6">
-            <TabsList className="grid w-full grid-cols-3">
-              <TabsTrigger value="security">
-                <Shield className="h-4 w-4 mr-2" />
-                Security
+          <Tabs defaultValue="security" className="space-y-4 sm:space-y-6">
+            <TabsList className="grid w-full grid-cols-3 h-auto">
+              <TabsTrigger value="security" className="text-xs sm:text-sm py-2 sm:py-2.5">
+                <Shield className="h-3 w-3 sm:h-4 sm:w-4 sm:mr-2" />
+                <span className="hidden sm:inline">Security</span>
               </TabsTrigger>
-              <TabsTrigger value="profile">
-                <User className="h-4 w-4 mr-2" />
-                Profile
+              <TabsTrigger value="profile" className="text-xs sm:text-sm py-2 sm:py-2.5">
+                <User className="h-3 w-3 sm:h-4 sm:w-4 sm:mr-2" />
+                <span className="hidden sm:inline">Profile</span>
               </TabsTrigger>
-              <TabsTrigger value="notifications">
-                <Bell className="h-4 w-4 mr-2" />
-                Notifications
+              <TabsTrigger value="notifications" className="text-xs sm:text-sm py-2 sm:py-2.5">
+                <Bell className="h-3 w-3 sm:h-4 sm:w-4 sm:mr-2" />
+                <span className="hidden sm:inline">Notifications</span>
               </TabsTrigger>
             </TabsList>
 
             <TabsContent value="security">
               <Card>
-                <CardHeader>
-                  <CardTitle>Change Password</CardTitle>
-                  <CardDescription>
+                <CardHeader className="px-4 sm:px-6">
+                  <CardTitle className="text-lg sm:text-xl">Change Password</CardTitle>
+                  <CardDescription className="text-sm">
                     Update your password to keep your account secure
                   </CardDescription>
                 </CardHeader>
-                <CardContent>
-                  <form onSubmit={handlePasswordChange} className="space-y-4">
+                <CardContent className="px-4 sm:px-6">
+                  <form onSubmit={handlePasswordChange} className="space-y-3 sm:space-y-4">
                     {validationErrors.length > 0 && (
                       <Alert variant="destructive">
                         <AlertCircle className="h-4 w-4" />

@@ -122,13 +122,13 @@ const PrivacyPolicy = () => {
     <div className="min-h-screen bg-background">
       <Header />
       
-      <section className="bg-gradient-to-br from-slate-50 to-blue-50 py-12 sm:py-16 px-4 sm:px-6">
+      <section className="bg-gradient-to-br from-slate-50 to-blue-50 py-12 sm:py-16 lg:py-20 px-4 sm:px-6">
         <div className="max-w-4xl mx-auto text-center">
-          <div className="bg-primary/10 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-6">
-            <Shield className="h-8 w-8 text-primary" />
+          <div className="bg-primary/10 w-12 h-12 sm:w-14 sm:h-14 lg:w-16 lg:h-16 rounded-full flex items-center justify-center mx-auto mb-4 sm:mb-6">
+            <Shield className="h-6 w-6 sm:h-7 sm:w-7 lg:h-8 lg:w-8 text-primary" />
           </div>
-          <h1 className="text-3xl sm:text-4xl font-bold mb-4">Privacy Policy</h1>
-          <p className="text-lg text-muted-foreground">
+          <h1 className="text-2xl sm:text-3xl lg:text-4xl font-bold mb-3 sm:mb-4">Privacy Policy</h1>
+          <p className="text-base sm:text-lg text-muted-foreground">
             Last Updated: January 15, 2024
           </p>
         </div>
@@ -136,9 +136,9 @@ const PrivacyPolicy = () => {
 
       <section className="py-12 sm:py-16 px-4 sm:px-6">
         <div className="max-w-4xl mx-auto">
-          <Card className="mb-8 bg-blue-50 border-blue-200">
-            <CardContent className="p-6">
-              <p className="text-sm leading-relaxed">
+          <Card className="mb-6 sm:mb-8 bg-blue-50 border-blue-200">
+            <CardContent className="p-4 sm:p-6">
+              <p className="text-xs sm:text-sm leading-relaxed">
                 At Time Capsule, we take your privacy seriously. This Privacy Policy explains how we collect,
                 use, disclose, and safeguard your information when you use our digital legacy planning service.
                 Please read this policy carefully. If you do not agree with the terms of this privacy policy,
@@ -147,15 +147,15 @@ const PrivacyPolicy = () => {
             </CardContent>
           </Card>
 
-          <div className="space-y-8">
+          <div className="space-y-4 sm:space-y-6 lg:space-y-8">
             {sections.map((section, index) => (
               <Card key={index}>
-                <CardContent className="p-6">
-                  <h2 className="text-xl font-bold mb-4">{section.title}</h2>
-                  <ul className="space-y-2">
+                <CardContent className="p-4 sm:p-6">
+                  <h2 className="text-lg sm:text-xl font-bold mb-3 sm:mb-4">{section.title}</h2>
+                  <ul className="space-y-1.5 sm:space-y-2">
                     {section.content.map((item, idx) => (
-                      <li key={idx} className="flex items-start gap-3 text-muted-foreground">
-                        <div className="w-1.5 h-1.5 rounded-full bg-primary mt-2 flex-shrink-0" />
+                      <li key={idx} className="flex items-start gap-2 sm:gap-3 text-xs sm:text-sm text-muted-foreground">
+                        <div className="w-1.5 h-1.5 rounded-full bg-primary mt-1.5 sm:mt-2 flex-shrink-0" />
                         <span>{item}</span>
                       </li>
                     ))}
@@ -165,13 +165,13 @@ const PrivacyPolicy = () => {
             ))}
           </div>
 
-          <Card className="mt-8 bg-amber-50 border-amber-200">
-            <CardContent className="p-6">
-              <h3 className="font-bold mb-2">Contact Us</h3>
-              <p className="text-sm text-muted-foreground">
+          <Card className="mt-6 sm:mt-8 bg-amber-50 border-amber-200">
+            <CardContent className="p-4 sm:p-6">
+              <h3 className="font-bold mb-2 text-sm sm:text-base">Contact Us</h3>
+              <p className="text-xs sm:text-sm text-muted-foreground">
                 If you have questions or comments about this Privacy Policy, please contact us at:
               </p>
-              <div className="mt-4 space-y-1 text-sm">
+              <div className="mt-3 sm:mt-4 space-y-1 text-xs sm:text-sm">
                 <p className="font-medium">Email: privacy@timecapsule.com</p>
                 <p className="font-medium">Phone: 1-800-TIME-911</p>
                 <p className="font-medium">Address: 123 Legacy Lane, Suite 400, Boston, MA 02108</p>

@@ -4,13 +4,13 @@ import Navigation from "@/components/ui/navigation";
 
 const Header = () => {
   return (
-    <header className="bg-slate-900 text-white py-4 px-6">
+    <header className="bg-slate-900 text-white py-3 sm:py-4 px-4 sm:px-6">
       <div className="max-w-6xl mx-auto flex items-center justify-between">
-        <div className="flex items-center space-x-3">
-          <div className="bg-blue-600 p-2 rounded-lg">
-            <Shield className="h-6 w-6" />
+        <div className="flex items-center space-x-2 sm:space-x-3">
+          <div className="bg-blue-600 p-1.5 sm:p-2 rounded-lg">
+            <Shield className="h-5 w-5 sm:h-6 sm:w-6" />
           </div>
-          <h1 className="text-2xl font-bold">Time Capsule</h1>
+          <h1 className="text-lg sm:text-xl md:text-2xl font-bold">Time Capsule</h1>
         </div>
         <Navigation variant="header" />
       </div>

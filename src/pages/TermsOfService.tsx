@@ -83,13 +83,13 @@ const TermsOfService = () => {
     <div className="min-h-screen bg-background">
       <Header />
       
-      <section className="bg-gradient-to-br from-slate-50 to-blue-50 py-12 sm:py-16 px-4 sm:px-6">
+      <section className="bg-gradient-to-br from-slate-50 to-blue-50 py-12 sm:py-16 lg:py-20 px-4 sm:px-6">
         <div className="max-w-4xl mx-auto text-center">
-          <div className="bg-primary/10 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-6">
-            <FileText className="h-8 w-8 text-primary" />
+          <div className="bg-primary/10 w-12 h-12 sm:w-14 sm:h-14 lg:w-16 lg:h-16 rounded-full flex items-center justify-center mx-auto mb-4 sm:mb-6">
+            <FileText className="h-6 w-6 sm:h-7 sm:w-7 lg:h-8 lg:w-8 text-primary" />
           </div>
-          <h1 className="text-3xl sm:text-4xl font-bold mb-4">Terms of Service</h1>
-          <p className="text-lg text-muted-foreground">
+          <h1 className="text-2xl sm:text-3xl lg:text-4xl font-bold mb-3 sm:mb-4">Terms of Service</h1>
+          <p className="text-base sm:text-lg text-muted-foreground">
             Last Updated: January 15, 2024
           </p>
         </div>
@@ -97,9 +97,9 @@ const TermsOfService = () => {
 
       <section className="py-12 sm:py-16 px-4 sm:px-6">
         <div className="max-w-4xl mx-auto">
-          <Card className="mb-8 bg-blue-50 border-blue-200">
-            <CardContent className="p-6">
-              <p className="text-sm leading-relaxed">
+          <Card className="mb-6 sm:mb-8 bg-blue-50 border-blue-200">
+            <CardContent className="p-4 sm:p-6">
+              <p className="text-xs sm:text-sm leading-relaxed">
                 These Terms of Service ("Terms") govern your access to and use of Time Capsule's services,
                 including our website, applications, and related services (collectively, the "Service").
                 By using our Service, you agree to be bound by these Terms. Please read them carefully.
@@ -107,21 +107,21 @@ const TermsOfService = () => {
             </CardContent>
           </Card>
 
-          <div className="space-y-6">
+          <div className="space-y-4 sm:space-y-6">
             {sections.map((section, index) => (
               <Card key={index}>
-                <CardContent className="p-6">
-                  <h2 className="text-xl font-bold mb-3">{section.title}</h2>
-                  <p className="text-muted-foreground leading-relaxed">{section.content}</p>
+                <CardContent className="p-4 sm:p-6">
+                  <h2 className="text-base sm:text-lg lg:text-xl font-bold mb-2 sm:mb-3">{section.title}</h2>
+                  <p className="text-xs sm:text-sm text-muted-foreground leading-relaxed">{section.content}</p>
                 </CardContent>
               </Card>
             ))}
           </div>
 
-          <Card className="mt-8 bg-amber-50 border-amber-200">
-            <CardContent className="p-6">
-              <h3 className="font-bold mb-2">Acknowledgment</h3>
-              <p className="text-sm text-muted-foreground">
+          <Card className="mt-6 sm:mt-8 bg-amber-50 border-amber-200">
+            <CardContent className="p-4 sm:p-6">
+              <h3 className="font-bold mb-2 text-sm sm:text-base">Acknowledgment</h3>
+              <p className="text-xs sm:text-sm text-muted-foreground">
                 By using Time Capsule, you acknowledge that you have read, understood, and agree to be bound
                 by these Terms of Service and our Privacy Policy. If you do not agree, you must discontinue
                 use of our services immediately.
