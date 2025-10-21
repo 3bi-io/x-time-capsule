@@ -8,6 +8,7 @@ import ProtectedRoute from "./components/ProtectedRoute";
 import Index from "./pages/Index";
 import HowItWorks from "./pages/HowItWorks";
 import Security from "./pages/Security";
+import Pricing from "./pages/Pricing";
 import Auth from "./pages/Auth";
 import EmergencyAccess from "./pages/EmergencyAccess";
 import Dashboard from "./pages/Dashboard";
@@ -35,6 +36,7 @@ const App = () => (
             <Route path="/" element={<Index />} />
             <Route path="/how-it-works" element={<HowItWorks />} />
             <Route path="/security" element={<Security />} />
+            <Route path="/pricing" element={<Pricing />} />
             <Route path="/auth" element={<Auth />} />
             <Route path="/emergency-access" element={<EmergencyAccess />} />
             <Route path="/help-center" element={<HelpCenter />} />

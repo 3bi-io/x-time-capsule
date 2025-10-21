@@ -18,6 +18,7 @@ const Navigation = ({ variant = "header" }: NavigationProps) => {
   const navItems = [
     { href: "/how-it-works", label: "How It Works" },
     { href: "/security", label: "Security" },
+    { href: "/pricing", label: "Pricing" },
   ];
 
   if (variant === "header") {
