@@ -1,10 +1,7 @@
-
 import { Heart } from "lucide-react";
 import { Link } from "react-router-dom";
-
 const Footer = () => {
-  return (
-    <footer className="bg-slate-900 text-white py-8 sm:py-12 px-4 sm:px-6">
+  return <footer className="bg-slate-900 text-white py-8 sm:py-12 px-4 sm:px-6">
       <div className="max-w-6xl mx-auto">
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-6 sm:gap-8">
           <div className="sm:col-span-2 lg:col-span-2">
@@ -54,13 +51,9 @@ const Footer = () => {
         </div>
         
         <div className="border-t border-slate-700 mt-6 sm:mt-8 pt-6 sm:pt-8 text-center">
-          <p className="text-slate-400 text-xs sm:text-sm">
-            Built with care for families who want to protect what matters most.
-          </p>
+          <p className="text-slate-400 text-xs sm:text-sm">Built with ❤️ for families who want to protect what matters most.</p>
         </div>
       </div>
-    </footer>
-  );
+    </footer>;
 };
-
 export default Footer;
