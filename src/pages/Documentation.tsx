@@ -1,9 +1,12 @@
+import SEO from "@/components/SEO";
+import StructuredData from "@/components/StructuredData";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Book, Shield, Users, Settings, FileText, Download, Video, Code } from "lucide-react";
 import { Link } from "react-router-dom";
+import { pageSEO, organizationSchema } from "@/utils/seoConfig";
 
 const Documentation = () => {
   const sections = [
@@ -86,6 +89,8 @@ const Documentation = () => {
 
   return (
     <div className="min-h-screen bg-background">
+      <SEO {...pageSEO.documentation} />
+      <StructuredData data={organizationSchema} />
       <Header />
       
       <section className="bg-gradient-to-br from-slate-50 to-blue-50 py-12 sm:py-16 lg:py-20 px-4 sm:px-6">

@@ -1,4 +1,6 @@
 import { useState } from "react";
+import SEO from "@/components/SEO";
+import StructuredData from "@/components/StructuredData";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -10,6 +12,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { useToast } from "@/hooks/use-toast";
 import { Mail, Phone, MessageCircle, Clock, MapPin } from "lucide-react";
 import { sanitizeEmail, sanitizeText } from "@/lib/sanitize";
+import { pageSEO, organizationSchema } from "@/utils/seoConfig";
 
 const Contact = () => {
   const { toast } = useToast();
@@ -61,8 +64,34 @@ const Contact = () => {
     }
   ];
 
+  const localBusinessSchema = {
+    "@context": "https://schema.org",
+    "@type": "LocalBusiness",
+    "name": "Final Wishes Guardian",
+    "telephone": "1-800-TIME-911",
+    "email": "support@timecapsule.com",
+    "address": {
+      "@type": "PostalAddress",
+      "streetAddress": "123 Legacy Lane, Suite 400",
+      "addressLocality": "Boston",
+      "addressRegion": "MA",
+      "postalCode": "02108",
+      "addressCountry": "US"
+    },
+    "openingHoursSpecification": [
+      {
+        "@type": "OpeningHoursSpecification",
+        "dayOfWeek": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"],
+        "opens": "09:00",
+        "closes": "18:00"
+      }
+    ]
+  };
+
   return (
     <div className="min-h-screen bg-background">
+      <SEO {...pageSEO.contact} />
+      <StructuredData data={[organizationSchema, localBusinessSchema]} />
       <Header />
       
       <section className="bg-gradient-to-br from-slate-50 to-blue-50 py-12 sm:py-16 lg:py-20 px-4 sm:px-6">

@@ -1,13 +1,17 @@
-
+import SEO from "@/components/SEO";
+import StructuredData from "@/components/StructuredData";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import VerificationProcess from "@/components/VerificationProcess";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { AlertTriangle, Clock, Phone } from "lucide-react";
+import { pageSEO, organizationSchema } from "@/utils/seoConfig";
 
 const EmergencyAccess = () => {
   return (
     <div className="min-h-screen">
+      <SEO {...pageSEO.emergencyAccess} />
+      <StructuredData data={organizationSchema} />
       <Header />
       
       <section className="bg-gradient-to-br from-red-50 to-orange-50 py-12 sm:py-16 lg:py-20 px-4 sm:px-6">

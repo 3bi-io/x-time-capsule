@@ -1,9 +1,12 @@
 import { Check } from "lucide-react";
 import { Link } from "react-router-dom";
+import SEO from "@/components/SEO";
+import StructuredData from "@/components/StructuredData";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
+import { pageSEO, organizationSchema } from "@/utils/seoConfig";
 
 const Pricing = () => {
   const pricingPlans = [
@@ -63,8 +66,25 @@ const Pricing = () => {
     },
   ];
 
+  const productSchemas = pricingPlans.map(plan => ({
+    "@context": "https://schema.org",
+    "@type": "Product",
+    "name": `Final Wishes Guardian - ${plan.name} Plan`,
+    "description": plan.description,
+    "offers": {
+      "@type": "Offer",
+      "price": plan.price.replace('$', '').replace('Custom', '0'),
+      "priceCurrency": "USD",
+      "priceValidUntil": "2025-12-31",
+      "availability": "https://schema.org/InStock",
+      "url": "https://finalwishesguardian.lovable.app/pricing"
+    }
+  }));
+
   return (
     <div className="min-h-screen bg-gradient-to-b from-slate-50 to-white">
+      <SEO {...pageSEO.pricing} />
+      <StructuredData data={[organizationSchema, ...productSchemas]} />
       <Header />
       
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-16 lg:py-24">

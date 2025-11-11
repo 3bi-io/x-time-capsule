@@ -1,14 +1,13 @@
-User-agent: Googlebot
-Allow: /
-
-User-agent: Bingbot
-Allow: /
-
-User-agent: Twitterbot
-Allow: /
-
-User-agent: facebookexternalhit
-Allow: /
-
+# Allow all bots to access the site
 User-agent: *
 Allow: /
+
+# Disallow authenticated/private pages
+User-agent: *
+Disallow: /dashboard
+Disallow: /admin
+Disallow: /settings
+Disallow: /family-members
+
+# Sitemap location
+Sitemap: https://finalwishesguardian.lovable.app/sitemap.xml

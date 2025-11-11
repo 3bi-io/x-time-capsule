@@ -1,10 +1,12 @@
-
+import SEO from "@/components/SEO";
+import StructuredData from "@/components/StructuredData";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { CheckCircle, Shield, Upload, Users, Lock, Heart } from "lucide-react";
 import { Link } from "react-router-dom";
+import { pageSEO, organizationSchema } from "@/utils/seoConfig";
 
 const HowItWorks = () => {
   const steps = [
@@ -38,8 +40,23 @@ const HowItWorks = () => {
     }
   ];
 
+  const howToSchema = {
+    "@context": "https://schema.org",
+    "@type": "HowTo",
+    "name": "How to Create Your Digital Time Capsule",
+    "description": "Step-by-step guide to creating a secure digital time capsule for your legacy",
+    "step": steps.map((step, index) => ({
+      "@type": "HowToStep",
+      "position": index + 1,
+      "name": step.title,
+      "text": step.description
+    }))
+  };
+
   return (
     <div className="min-h-screen">
+      <SEO {...pageSEO.howItWorks} />
+      <StructuredData data={[organizationSchema, howToSchema]} />
       <Header />
       
       <section className="bg-gradient-to-br from-slate-50 to-blue-50 py-12 sm:py-16 lg:py-20 px-4 sm:px-6">

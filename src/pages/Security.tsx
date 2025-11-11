@@ -1,10 +1,12 @@
-
+import SEO from "@/components/SEO";
+import StructuredData from "@/components/StructuredData";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import SecurityFeatures from "@/components/SecurityFeatures";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Shield, Lock, Eye, Server, Clock, Award } from "lucide-react";
+import { pageSEO, organizationSchema } from "@/utils/seoConfig";
 
 const Security = () => {
   const certifications = [
@@ -39,6 +41,8 @@ const Security = () => {
 
   return (
     <div className="min-h-screen">
+      <SEO {...pageSEO.security} />
+      <StructuredData data={organizationSchema} />
       <Header />
       
       <section className="bg-gradient-to-br from-slate-50 to-blue-50 py-12 sm:py-16 lg:py-20 px-4 sm:px-6">

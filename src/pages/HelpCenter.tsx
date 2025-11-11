@@ -1,3 +1,5 @@
+import SEO from "@/components/SEO";
+import StructuredData from "@/components/StructuredData";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -6,6 +8,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Search, MessageCircle, Book, Shield, Users, HelpCircle } from "lucide-react";
 import { Link } from "react-router-dom";
+import { pageSEO, organizationSchema } from "@/utils/seoConfig";
 
 const HelpCenter = () => {
   const categories = [
@@ -70,8 +73,23 @@ const HelpCenter = () => {
     }
   ];
 
+  const faqSchema = {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": faqs.map(faq => ({
+      "@type": "Question",
+      "name": faq.question,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": faq.answer
+      }
+    }))
+  };
+
   return (
     <div className="min-h-screen bg-background">
+      <SEO {...pageSEO.helpCenter} />
+      <StructuredData data={[organizationSchema, faqSchema]} />
       <Header />
       
       {/* Hero Section */}
