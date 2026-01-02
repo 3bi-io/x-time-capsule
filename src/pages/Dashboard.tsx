@@ -6,12 +6,15 @@ import VaultInterface from "@/components/VaultInterface";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
+import { Alert, AlertDescription } from "@/components/ui/alert";
 import { useAuth } from "@/contexts/AuthContext";
 import { useVaultData } from "@/hooks/useVaultData";
 import { useNotifications } from "@/hooks/useNotifications";
 import { useFamilyMembers } from "@/hooks/useFamilyMembers";
-import { Shield, Users, Clock, Plus, Settings as SettingsIcon } from "lucide-react";
+import { useOnboarding } from "@/hooks/useOnboarding";
+import { Shield, Users, Clock, Plus, Settings as SettingsIcon, Sparkles, X } from "lucide-react";
 import { AddVaultItemModal } from "@/components/vault/AddVaultItemModal";
+import OnboardingWizard from "@/components/onboarding/OnboardingWizard";
 import type { VaultItemInput } from "@/lib/validationSchemas";
 
 const Dashboard = () => {
@@ -20,7 +23,15 @@ const Dashboard = () => {
   const { timeCapsules, loading, addTimeCapsule } = useVaultData();
   const { notifications, markAsRead } = useNotifications();
   const { stats: familyStats } = useFamilyMembers();
+  const { 
+    showOnboarding, 
+    isComplete: onboardingComplete, 
+    completeOnboarding, 
+    startOnboarding, 
+    dismissOnboarding 
+  } = useOnboarding();
   const [showAddModal, setShowAddModal] = useState(false);
+  const [showOnboardingBanner, setShowOnboardingBanner] = useState(true);
 
   const handleAddItem = async (item: VaultItemInput) => {
     await addTimeCapsule({
@@ -29,6 +40,16 @@ const Dashboard = () => {
       category: item.category,
       content: item.content || {},
     });
+  };
+
+  const handleOnboardingAddItem = () => {
+    dismissOnboarding();
+    setShowAddModal(true);
+  };
+
+  const handleOnboardingInviteFamily = () => {
+    dismissOnboarding();
+    navigate('/family-members');
   };
 
   const stats = [
@@ -52,12 +73,50 @@ const Dashboard = () => {
     }
   ];
 
+  // Calculate onboarding progress
+  const onboardingProgress = {
+    hasVaultItems: timeCapsules.length > 0,
+    hasFamilyMembers: familyStats.total > 0,
+  };
+  const completedSteps = Object.values(onboardingProgress).filter(Boolean).length;
+  const totalSteps = Object.keys(onboardingProgress).length;
+
   return (
     <div className="min-h-screen bg-slate-50">
       <Header />
       
       <section className="py-6 sm:py-8 px-4 sm:px-6">
         <div className="max-w-6xl mx-auto">
+          {/* Onboarding Progress Banner */}
+          {!onboardingComplete && showOnboardingBanner && completedSteps < totalSteps && (
+            <Alert className="mb-6 border-primary/20 bg-primary/5">
+              <Sparkles className="h-4 w-4 text-primary" />
+              <AlertDescription className="flex items-center justify-between">
+                <div className="flex-1">
+                  <span className="font-medium">Complete your setup!</span>
+                  <span className="text-muted-foreground ml-2">
+                    {completedSteps} of {totalSteps} steps done
+                    {!onboardingProgress.hasVaultItems && " • Add your first vault item"}
+                    {!onboardingProgress.hasFamilyMembers && " • Invite a family member"}
+                  </span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <Button size="sm" variant="outline" onClick={startOnboarding}>
+                    View Guide
+                  </Button>
+                  <Button 
+                    size="sm" 
+                    variant="ghost" 
+                    className="h-8 w-8 p-0"
+                    onClick={() => setShowOnboardingBanner(false)}
+                  >
+                    <X className="h-4 w-4" />
+                  </Button>
+                </div>
+              </AlertDescription>
+            </Alert>
+          )}
+
           <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-6 sm:mb-8">
             <div>
               <h1 className="text-2xl sm:text-3xl font-bold text-slate-900">
@@ -182,6 +241,14 @@ const Dashboard = () => {
         open={showAddModal}
         onOpenChange={setShowAddModal}
         onAdd={handleAddItem}
+      />
+
+      <OnboardingWizard
+        isOpen={showOnboarding}
+        onClose={dismissOnboarding}
+        onComplete={completeOnboarding}
+        onAddVaultItem={handleOnboardingAddItem}
+        onInviteFamily={handleOnboardingInviteFamily}
       />
     </div>
   );
