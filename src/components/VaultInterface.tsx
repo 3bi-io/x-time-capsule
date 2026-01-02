@@ -3,6 +3,7 @@ import { Button } from "@/components/ui/button";
 import { Plus, Folder } from "lucide-react";
 import CategoryButton from "./vault/CategoryButton";
 import VaultItem from "./vault/VaultItem";
+import VaultItemViewModal from "./vault/VaultItemViewModal";
 import { VAULT_CATEGORIES } from "@/data/constants";
 import { AddVaultItemModal } from "./vault/AddVaultItemModal";
 import EditVaultItemModal from "./vault/EditVaultItemModal";
@@ -16,6 +17,7 @@ const VaultInterface = () => {
   const [selectedCategory, setSelectedCategory] = useState("all");
   const [modalOpen, setModalOpen] = useState(false);
   const [editingItem, setEditingItem] = useState<TimeCapsule | null>(null);
+  const [viewingItem, setViewingItem] = useState<TimeCapsule | null>(null);
   const { timeCapsules, loading, addTimeCapsule, updateTimeCapsule, deleteTimeCapsule } = useVaultData();
 
   const handleAddItem = async (item: VaultItemInput) => {
@@ -25,6 +27,11 @@ const VaultInterface = () => {
       category: item.category,
       content: item.content || {},
     });
+  };
+
+  const handleViewItem = (id: string) => {
+    const item = timeCapsules.find(item => item.id === id);
+    if (item) setViewingItem(item);
   };
 
   const handleEditItem = (id: string) => {
@@ -119,6 +126,9 @@ const VaultInterface = () => {
                     type={item.category}
                     date={new Date(item.created_at).toLocaleDateString()}
                     status="Active"
+                    description={item.description}
+                    unlockDate={item.unlock_date}
+                    onView={handleViewItem}
                     onEdit={handleEditItem}
                     onDelete={handleDeleteItem}
                   />
@@ -149,6 +159,17 @@ const VaultInterface = () => {
           onClose={() => setEditingItem(null)}
           onSave={handleSaveEdit}
           item={editingItem}
+        />
+      )}
+      {viewingItem && (
+        <VaultItemViewModal
+          isOpen={!!viewingItem}
+          onClose={() => setViewingItem(null)}
+          onEdit={() => {
+            setEditingItem(viewingItem);
+            setViewingItem(null);
+          }}
+          item={viewingItem}
         />
       )}
     </section>
