@@ -9,6 +9,7 @@ import { Badge } from "@/components/ui/badge";
 import { useAuth } from "@/contexts/AuthContext";
 import { useVaultData } from "@/hooks/useVaultData";
 import { useNotifications } from "@/hooks/useNotifications";
+import { useFamilyMembers } from "@/hooks/useFamilyMembers";
 import { Shield, Users, Clock, Plus, Settings as SettingsIcon } from "lucide-react";
 import { AddVaultItemModal } from "@/components/vault/AddVaultItemModal";
 import type { VaultItemInput } from "@/lib/validationSchemas";
@@ -18,6 +19,7 @@ const Dashboard = () => {
   const navigate = useNavigate();
   const { timeCapsules, loading, addTimeCapsule } = useVaultData();
   const { notifications, markAsRead } = useNotifications();
+  const { stats: familyStats } = useFamilyMembers();
   const [showAddModal, setShowAddModal] = useState(false);
 
   const handleAddItem = async (item: VaultItemInput) => {
@@ -38,7 +40,7 @@ const Dashboard = () => {
     },
     { 
       label: "Family Members", 
-      value: "0", 
+      value: familyStats.total.toString(), 
       icon: Users, 
       color: "text-green-600" 
     },

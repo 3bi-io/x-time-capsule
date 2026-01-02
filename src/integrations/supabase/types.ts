@@ -269,10 +269,7 @@ export type Database = {
         }
         Returns: boolean
       }
-      is_capsule_unlocked: {
-        Args: { _capsule_id: string }
-        Returns: boolean
-      }
+      is_capsule_unlocked: { Args: { _capsule_id: string }; Returns: boolean }
     }
     Enums: {
       app_role: "admin" | "user"
